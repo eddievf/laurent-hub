@@ -1,114 +1,252 @@
 <?php
-	
-			/*$servername = "localhost";
-			$username = "root";
-			$password = "";
-
-					$conn = new PDO("mysql:host=$servername;dbname=test", $username, $password);
-
-					$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-					$stmt = $conn->prepare("INSERT INTO testOrders (OrdenTrabajo, OrdenCompra, Cliente, FechaSolicitud, Partida, 
-							Pieza, Cantidad, Progress )
-							VALUES (:OrdenTrabajo, :OrdenCompra, :Cliente, :FechaSolicitud, :Partida, :Pieza, :Cantidad, :Progress) "); */
-
-					#SELECT
-					echo "--SELECTS** <br>";
+					echo "--START** <br>";
+					#SELECTS
 					$Orders = $_POST["Orders"];
-					echo "Orders - VALUE: ".$Orders."<br>";
-
 					$OrdenTrabajo = $_POST["OrdenTrabajo"];
-					echo "OrdenTrabajo - VALUE: ".$OrdenTrabajo."<br>";
-
 					$OrdenCompra = $_POST["OrdenCompra"];
-					echo "OrdenCompra - VALUE: ".$OrdenCompra."<br>";
-
 					$Cliente = $_POST["Cliente"];
-					echo "Cliente - VALUE: ".$Cliente."<br>";
-
 					$FechaSolicitud = $_POST["FechaSolicitud"];
-					echo "FechaSolicitud - VALUE: ".$FechaSolicitud."<br>";
-
 					$Partida = $_POST["Partida"];
-					echo "Partida - VALUE: ".$Partida."<br>";
-
 					$Pieza = $_POST["Pieza"];
-					echo "Pieza - VALUE: ".$Pieza."<br>";
-
 					$Cantidad = $_POST["Cantidad"];
-					echo "Cantidad - VALUE: ".$Cantidad."<br>";
-
 					$Progress = $_POST["Progress"];
-					echo "Progress - VALUE: ".$Progress."<br>";
-
 					$Avance = $_POST["Avance"];
-					echo "Avance - VALUE: ".$Avance."<br>";
-
 					$FechaCompromiso = $_POST["FechaCompromiso"];
-					echo "Fecha Compromiso - VALUE: ".$FechaCompromiso."<br>";
-
 					$FechaReal = $_POST["FechaReal"];
-					echo "FechaReal - VALUE: ".$FechaReal."<br>";
-
 					$Factura = $_POST["Factura"];
-					echo "Factura - VALUE: ".$Factura."<br><br>";
-
-					echo "--WHERES** <br>";
+					
+					#WHERES
 					$WhereWork = $_POST["WhereWork"];
-					echo "<u>WhereWork- VALUE: ".$WhereWork."</u><br>";
+					$WhereMuns = $_POST["WhereMuns"];
+					$WhereClient = $_POST["WhereClient"];
+					$WhereAva = $_POST["WhereAva"];
 
+					#ORDERBY
+					$OrderBy = $_POST["OrderBy"];
+						$ReqDate = $_POST["ReqDate"];
+						$WorkOrder = $_POST["WorkOrder"];
+						$MunsOrder = $_POST["MunsOrder"];
+
+
+					echo "SELECT ";
+
+					if($OrdenTrabajo == 0){
+						echo "";
+					}
+					else{
+						if($OrdenCompra == 0 && $Cliente == 0){
+							echo "OrdenTrabajo ";
+						}
+						else{
+							echo "OrdenTrabajo, ";
+						}
+					}
+
+					if($OrdenCompra == 0){
+						echo "";
+					}
+					else{
+						if($Cliente == 0 && $FechaSolicitud == 0){
+							echo "OrdenCompra ";
+						}
+						else{
+							echo "OrdenCompra, ";
+						}
+					}
+
+					if($Cliente == 0){
+						echo "";
+					}
+					else{
+						if($FechaSolicitud == 0 && $Partida == 0){
+							echo "testorders.Cliente ";
+						}
+						else{
+							echo "testorders.Cliente, ";
+						}
+					}
+
+					if($FechaSolicitud == 0){
+						echo "";
+					}
+					else{
+						if($Partida == 0 && $Pieza == 0){
+							echo "FechaSolicitud ";
+						}
+						else{
+							echo "FechaSolicitud, ";
+						}
+					}
+
+					if($Partida == 0){
+						echo "";
+					}
+					else{
+						if($Pieza == 0 && $Cantidad == 0){
+							echo "Partida ";
+						}
+						else{
+							echo "Partida, ";
+						}
+					}
+
+					if($Pieza == 0){
+						echo "";
+					}
+					else{
+						if($Cantidad == 0 && $Progress == 0){
+							echo "Descripcion ";
+						}
+						else{
+							echo "Descripcion, ";
+						}
+					}
+
+					if($Cantidad == 0){
+						echo "";
+					}
+					else{
+						if($Progress == 0 && $Avance == 0){
+							echo "Cantidad ";
+						}
+						else{
+							echo "Cantidad, ";
+						}
+					}
+
+					if($Progress == 0){
+						echo "";
+					}
+					else{
+						if($Avance == 0 && $FechaCompromiso == 0){
+							echo "Progress ";
+						}
+						else{
+							echo "Progress, ";
+						}
+					}
+
+					if($Avance == 0){
+						echo "";
+					}
+					else{
+						if($FechaCompromiso == 0 && $FechaReal == 0){
+							echo "Avance ";
+						}
+						else{
+							echo "Avance, ";
+						}
+					}
+
+					if($FechaCompromiso == 0){
+						echo "";
+					}
+					else{
+						if($FechaReal == 0 && $Factura = 0){
+							echo "FechaCompromiso ";
+						}
+						else{
+							echo "FechaCompromiso, ";
+						}
+					}
+
+					if($FechaReal == 0){
+						echo "";
+					}
+					else{
+						if($Factura == 0){
+							echo "FechaReal ";
+						}
+						else{
+							echo "FechaReal,";
+						}
+					}
+					
+					if($Factura == 0){
+						echo "";
+					}
+					else{
+						echo "Factura";
+					}
+
+					//END SELECT IFS
+
+					echo "<br>FROM testorders, testpiezas <br> WHERE (testpiezas.ID = testorders.Pieza) <br>";
+					
 					if ($WhereWork == 0){
 						echo "";
 					}
 					else{
 						$WhereWorkOrder = $_POST["WhereWorkOrder"];
-						echo "<i>WhereWorkOrder - VALUE: ".$WhereWorkOrder."</i><br>";
+						echo "AND OrdenTrabajo = ".$WhereWorkOrder."<br>";
 					}
 
-					$WhereMuns = $_POST["WhereMuns"];
-					echo "<u>WhereMuns - VALUE: ".$WhereMuns."</u><br>";
+					
 					if ($WhereMuns == 0){
 						echo "";
 					}
 					else{
 						$WhereMunsOrder = $_POST["WhereMunsOrder"];
-						echo "<i>WhereMunsOrder - VALUE: ".$WhereMunsOrder."</i><br>";
+						echo "AND OrdenCompra = ".$WhereMunsOrder."<br>";
 					}
 
-					$WhereClient = $_POST["WhereClient"];
-					echo "<u>WhereClient - VALUE: ".$WhereClient."</u><br>";
 					if ($WhereClient == 0){
 						echo "";
 					}
 					else{
 						$WhereClientName = $_POST["WhereClientName"];
-						echo "<i>WhereClientName - VALUE: ".$WhereClientName."</i><br>";
+						echo "AND testorders.Cliente LIKE '%".$WhereClientName."%' <br>";
 					}
 
-					$WhereAva = $_POST["WhereAva"];
-					echo "<u>WhereAva - VALUE: ".$WhereAva."</u><br>";
 					if($WhereAva == 0){
 						echo "";
 					}
 					else{
 						$WhereAvaIs = $_POST["WhereAvaIs"];
-						echo "<i>WhereAvaIs - VALUE: ".$WhereAvaIs."</i><br>";
+						echo "AND Avance = ".$Avance."<br>";
 					}
 
-					#ORDERBY
-					echo "<br>--ORDERBYS ** <br>";
-					$OrderBy = $_POST["OrderBy"];
-					echo "<u>OrderBy - VALUE: ".$OrderBy."<u><br>";
+					//END WHERE IFS
+
+					
 					if ($OrderBy == 0){
-						echo "";
+						echo "ORDER BY OrdenTrabajo, Partida";
 					}
 					else{
-						$ReqDate = $_POST["ReqDate"];
-						echo "<i>ReqDate - VALUE: ".$ReqDate."<br>";
-						$WorkOrder = $_POST["WorkOrder"];
-						echo "<i>WorkOrder - VALUE: ".$WorkOrder."<br>";
-						$MunsOrder = $_POST["MunsOrder"];
-						echo "<i>MunsOrder - VALUE: ".$MunsOrder."<br>";
+						echo "ORDER BY ";
+						
+						if($ReqDate == 0){
+							echo "";
+						}
+						else{
+							if($WorkOrder == 0 && $MunsOrder == 0){
+								echo "FechaSolicitud ";
+							}
+							else{
+								echo "FechaSolicitud, ";
+							}
+						}
+						
+						if($WorkOrder == 0){
+							echo "";
+						}
+						else{
+							if($MunsOrder == 0){
+								echo "OrdenTrabajo";
+							}
+							else{
+								echo "OrdenTrabajo, ";
+							}
+						}
+						
+						if ($MunsOrder == 0){
+							echo "";
+						}
+						else{
+							echo "OrdenCompra";
+						}
+
+						echo ", Partida";
 					}
 
 ?>
