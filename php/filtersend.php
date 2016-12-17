@@ -1,4 +1,6 @@
 <?php
+					
+
 					echo "--START** <br>";
 					#SELECTS
 					$Orders = $_POST["Orders"];
@@ -27,148 +29,78 @@
 						$WorkOrder = $_POST["WorkOrder"];
 						$MunsOrder = $_POST["MunsOrder"];
 
-
-					echo "SELECT ";
-
-					if($OrdenTrabajo == 0){
-						echo "";
-					}
-					else{
-						if($OrdenCompra == 0 && $Cliente == 0){
-							echo "OrdenTrabajo ";
-						}
-						else{
-							echo "OrdenTrabajo, ";
-						}
-					}
-
-					if($OrdenCompra == 0){
-						echo "";
-					}
-					else{
-						if($Cliente == 0 && $FechaSolicitud == 0){
-							echo "OrdenCompra ";
-						}
-						else{
-							echo "OrdenCompra, ";
-						}
-					}
-
-					if($Cliente == 0){
-						echo "";
-					}
-					else{
-						if($FechaSolicitud == 0 && $Partida == 0){
-							echo "testorders.Cliente ";
-						}
-						else{
-							echo "testorders.Cliente, ";
-						}
-					}
-
-					if($FechaSolicitud == 0){
-						echo "";
-					}
-					else{
-						if($Partida == 0 && $Pieza == 0){
-							echo "FechaSolicitud ";
-						}
-						else{
-							echo "FechaSolicitud, ";
-						}
-					}
-
-					if($Partida == 0){
-						echo "";
-					}
-					else{
-						if($Pieza == 0 && $Cantidad == 0){
-							echo "Partida ";
-						}
-						else{
-							echo "Partida, ";
-						}
-					}
-
-					if($Pieza == 0){
-						echo "";
-					}
-					else{
-						if($Cantidad == 0 && $Progress == 0){
-							echo "Descripcion ";
-						}
-						else{
-							echo "Descripcion, ";
-						}
-					}
-
-					if($Cantidad == 0){
-						echo "";
-					}
-					else{
-						if($Progress == 0 && $Avance == 0){
-							echo "Cantidad ";
-						}
-						else{
-							echo "Cantidad, ";
-						}
-					}
-
-					if($Progress == 0){
-						echo "";
-					}
-					else{
-						if($Avance == 0 && $FechaCompromiso == 0){
-							echo "Progress ";
-						}
-						else{
-							echo "Progress, ";
-						}
-					}
-
-					if($Avance == 0){
-						echo "";
-					}
-					else{
-						if($FechaCompromiso == 0 && $FechaReal == 0){
-							echo "Avance ";
-						}
-						else{
-							echo "Avance, ";
-						}
-					}
-
-					if($FechaCompromiso == 0){
-						echo "";
-					}
-					else{
-						if($FechaReal == 0 && $Factura = 0){
-							echo "FechaCompromiso ";
-						}
-						else{
-							echo "FechaCompromiso, ";
-						}
-					}
-
-					if($FechaReal == 0){
-						echo "";
-					}
-					else{
-						if($Factura == 0){
-							echo "FechaReal ";
-						}
-						else{
-							echo "FechaReal,";
-						}
+					if($OrdenTrabajo == 1){
+						$QuerySelect[]="OrdenTrabajo";
 					}
 					
-					if($Factura == 0){
-						echo "";
+
+					if($OrdenCompra == 1){
+						$QuerySelect[] = "OrdenCompra";
 					}
-					else{
-						echo "Factura";
+					
+
+					if($Cliente == 1){
+						$QuerySelect[] = "testorders.Cliente";
+					}
+					
+
+					if($FechaSolicitud == 1){
+						$QuerySelect[] = "FechaSolicitud";
 					}
 
+					if($Partida == 1){
+						$QuerySelect[] = "Partida";
+					}
+					
+
+					if($Pieza == 1){
+						$QuerySelect[] = "Descripcion";
+					}
+
+
+					if($Cantidad == 1){
+						$QuerySelect[] = "Cantidad";
+					}
+					
+
+					if($Progress == 1){
+						$QuerySelect[] = "Progress";
+					}
+					
+
+					if($Avance == 1){
+						$QuerySelect[] = "Avance";
+					}
+
+					if($FechaCompromiso == 1){
+						$QuerySelect[] = "FechaCompromiso";
+					}
+
+					if($FechaReal == 1){
+						$QuerySelect[] = "FechaReal";
+					}
+					
+					if($Factura == 1){
+						$QuerySelect[] = "Factura";
+					}
+
+					$selectcount = count($QuerySelect);
+
+					print_r($QuerySelect);
+
+					echo "WOW, array count is --> ".$selectcount."<br>";
+
+					if($selectcount>0){
+
+						echo "SELECT ";
+						for ($i=0; $i < $selectcount-1; $i++) { 
+							echo $QuerySelect[$i].", ";
+						}
+
+						echo $QuerySelect[($selectcount-1)];
+					}
+
+					
 					//END SELECT IFS
 
 					echo "<br>FROM testorders, testpiezas <br> WHERE (testpiezas.ID = testorders.Pieza) <br>";
