@@ -8,4 +8,3 @@ Master Version includes full functionality on main page for:
 <li>Forms</li>
 <li>Filters [schema only]</li>
 </ul>
-<br
