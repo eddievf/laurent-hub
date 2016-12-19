@@ -21,7 +21,7 @@
 					$WhereWork = $_POST["WhereWork"];
 					$WhereMuns = $_POST["WhereMuns"];
 					$WhereClient = $_POST["WhereClient"];
-					$WhereAva = $_POST["WhereAva"];
+					$WhereProg = $_POST["WhereProg"];
 
 					#ORDERBY
 					$OrderBy = $_POST["OrderBy"];
@@ -130,12 +130,12 @@
 						echo "AND testorders.Cliente LIKE '%".$WhereClientName."%' <br>";
 					}
 
-					if($WhereAva == 0){
+					if($WhereProg == 0){
 						echo "";
 					}
 					else{
-						$WhereAvaIs = $_POST["WhereAvaIs"];
-						echo "AND Avance = ".$Avance."<br>";
+						$WhereProgIs = $_POST["WhereProgIs"];
+						echo "AND Progress NOT LIKE '%".$WhereProgIs."%' <br>";
 					}
 
 					//END WHERE IFS
