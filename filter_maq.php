@@ -91,13 +91,13 @@
 				<div id="results">			
 				<h1 class="page-header">Reporte de Producción y Procesos</h1>
 				
-					<div class="container-fluid" id="txtHint">
+					<div class="container-fluid" id="showFilter">
 						<div class="row placeholders">
 							
 							<div class="jumbotron jumbotron-fluid">
 								<div class="container">
 									<h2 class="display-3">Consulta detallada de información</h2>
-									<p class="lead text-muted"><i>En la parte inferior se encuentran los campos disponibles para consulta de información.<br>Tras seleccionar la información requerida, esta se mostrará en esta sección.</i></p>
+									<p class="lead text-muted"><i>En la parte inferior se encuentran los campos disponibles para consulta de información.<br>Tras solicitar la información requerida, esta se mostrará en esta sección.</i></p>
 								</div>
 							</div>
 	
@@ -109,26 +109,100 @@
 					<h2 class="sub-header">Consultas Predeterminadas</h2>
 					<div class="btn-group btn-group-justified" role="group" aria-label="...">
 						<div class="btn-group" role="group">
-							<button type="button" class="btn btn-default">View All Open</button>
+							<button type="button" class="btn btn-default" name="buttonOpen" id="buttonOpen">Ordenes Abiertas</button>
 						</div>
 						<div class="btn-group" role="group">
-							<button type="button" class="btn btn-default">View All Stopped</button>
+							<button type="button" class="btn btn-default" name="buttonStopped" id="buttonStopped">Proceso Detenido</button>
 						</div>
 						<div class="btn-group" role="group">
-							<button type="button" class="btn btn-default">View Done in Month</button>
+							<button type="button" class="btn btn-default" name="buttonDone" id="buttonDone">All Done in Last Month</button>
 						</div>
 						<div class="btn-group" role="group">
-							<button type="button" class="btn btn-default">View for WorkOrder*</button>
+							<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalWork" name="buttonWork" id="buttonWork">Orden Trabajo*</button>
 						</div>
 						<div class="btn-group" role="group">
-							<button type="button" class="btn btn-default">View for MunsOrder*</button>
+							<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalMuns" name="buttonMuns" id="buttonMuns">Orden de Compra*</button>
 						</div>
 						<div class="btn-group" role="group">
-							<button type="button" class="btn btn-default">View for Client*</button>
+							<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalClient" name="buttonClient" id="buttonClient">Ordenes de Cliente*</button>
 						</div>
 						
 					</div>
 				</div>
+
+			<!--MODALS-->
+				<div id="modalWork" class="modal fade bs-example-modal-sm" role="dialog" aria-labelledby="modalWork" aria-hidden="true">
+					<div class="modal-dialog modal-sm" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								<h4 class="modal-title">Ingresar Orden de Trabajo</h4>
+							</div>
+							<form id="WorkOrderFilter" method="POST">
+							<div class="modal-body">
+								
+									<div class="form-group">
+										<label for="WorkOrderNumber">Numero de Orden</label>
+										<input type="number" class="form-control" id="WorkOrderNumber" name="WorkOrderNumber" placeholder="Folio de Orden de Trabajo">
+									</div>
+
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+								<button type="submit" class="btn btn-primary">Aceptar</button>
+							</form>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div id="modalMuns" class="modal fade bs-example-modal-sm" role="dialog" aria-labelledby="modalWork" aria-hidden="true">
+					<div class="modal-dialog modal-sm" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								<h4 class="modal-title">Ingresar Orden de Compra</h4>
+							</div>
+							<form id="TemmieOrderFilter" method="POST">
+							<div class="modal-body">
+								<div class="form-group">
+									<label for="TemmieOrderNumber">Numero de Orden</label>
+									<input type="number" class="form-control" id="TemmieOrderNumber" name="TemmieOrderNumber" placeholder="Folio de Orden de Compra">
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+								<button type="submit" class="btn btn-primary">Aceptar</button>
+							</form>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div id="modalClient" class="modal fade bs-example-modal-sm" role="dialog" aria-labelledby="modalWork" aria-hidden="true">
+					<div class="modal-dialog modal-sm" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								<h4 class="modal-title">Ingresar Nombre de Cliente</h4>
+							</div>
+							<form id="ClientFilter" method="POST">
+							<div class="modal-body">
+								<div class="form-group">
+									<label for="ClientText">Cliente </label>
+									<input type="text" class="form-control" id="ClientText" name="ClientText" placeholder="Nombre de Cliente">
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+								<button type="submit" class="btn btn-primary">Aceptar</button>
+							</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			<!--MODALS-->
+
 
 				<div class="container-fluid" id="selects">
 					<h2 class="sub-header">Consultas Personalizadas</h2>
@@ -230,7 +304,7 @@
 									<div class="form-group row">
 										<label for="WhereWorkOrder" class="col-sm-6 col-form-label">
 											<input type="hidden" name="WhereWork" id="WhereWorkHidden" value="0">
-											<input type="checkbox" name="WhereWork" id="WhereWork" value="1"> Orden Trabajo
+											<input type="checkbox" name="WhereWork" id="WhereWork" value="1"> Orden Trabajo  =
 										</label>
 										<div class="col-sm-6">
 											<input class="form-control" type="number" placeholder="Folio Orden Trabajo" name="WhereWorkOrder" id="WhereWorkOrder">
@@ -240,7 +314,7 @@
 									<div class="form-group row">
 										<label for="WhereMunsOrder" class="col-sm-6 col-form-label">
 											<input type="hidden" name="WhereMuns" id="WhereMunsHidden" value="0">
-											<input type="checkbox" name="WhereMuns" id="WhereMuns" value="1"> Orden Compra 
+											<input type="checkbox" name="WhereMuns" id="WhereMuns" value="1"> Orden Compra  =
 										</label>
 										<div class="col-sm-6">
 											<input class="form-control" type="number" placeholder="# Orden Compra" name="WhereMunsOrder" id="WhereMunsOrder">
@@ -250,7 +324,7 @@
 									<div class="form-group row">
 										<label for="WhereClientName" class="col-sm-6 col-form-label">
 											<input type="hidden" name="WhereClient" id="WhereClientHidden" value="0">
-											<input type="checkbox" name="WhereClient" id="WhereClient" value="1"> Cliente
+											<input type="checkbox" name="WhereClient" id="WhereClient" value="1"> Cliente</p>
 										</label>
 										<div class="col-sm-6">
 											<input class="form-control" type="text" placeholder="Nombre Cliente" name="WhereClientName" id="WhereClientName">
@@ -259,11 +333,11 @@
 
 									<div class="form-group row">
 										<label for="WhereAvaIs" class="col-sm-6 col-form-label">
-											<input type="hidden" name="WhereAva" id="WhereAvaHidden" value="0">
-											<input type="checkbox" name="WhereAva" id="WhereAva" value="1"> (%) Avance
+											<input type="hidden" name="WhereProg" id="WhereProogHidden" value="0">
+											<input type="checkbox" name="WhereProg" id="WhereProg" value="1"> Proceso Actual  =/=
 										</label>
 										<div class="col-sm-6">
-											<input class="form-control" type="number" placeholder="Buscar por Avance" name="WhereAvaIs" id="WhereAvaIs">
+											<input class="form-control" type="text" placeholder="Buscar por Estado" name="WhereProgIs" id="WhereProgIs">
 										</div>
 									</div>
 
