@@ -15,6 +15,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="js/scrollspy.js"></script>
 	<script src="js/getinfo.js"></script>
+	<script src="js/getfilters.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.min.js"></script>
 
 </head>
@@ -91,7 +92,8 @@
 				<div id="results">			
 				<h1 class="page-header">Reporte de Producción y Procesos</h1>
 				
-					<div class="container-fluid" id="showFilter">
+					<div id="showFilter">
+					<div class="container-fluid">
 						<div class="row placeholders">
 							
 							<div class="jumbotron jumbotron-fluid">
@@ -103,28 +105,29 @@
 	
 						</div>	
 					</div>
+					</div>
 				</div>
 
 				<div class="container-fluid" id="presets">
 					<h2 class="sub-header">Consultas Predeterminadas</h2>
 					<div class="btn-group btn-group-justified" role="group" aria-label="...">
 						<div class="btn-group" role="group">
-							<button type="button" class="btn btn-default" name="buttonOpen" id="buttonOpen">Ordenes Abiertas</button>
+							<button type="button" class="btn btn-success" onclick="" name="buttonOpen" id="buttonOpen">Ordenes Abiertas</button>
 						</div>
 						<div class="btn-group" role="group">
-							<button type="button" class="btn btn-default" name="buttonStopped" id="buttonStopped">Proceso Detenido</button>
+							<button type="button" class="btn btn-danger" name="buttonStopped" id="buttonStopped">Proceso Detenido</button>
 						</div>
 						<div class="btn-group" role="group">
-							<button type="button" class="btn btn-default" name="buttonDone" id="buttonDone">All Done in Last Month</button>
+							<button type="button" class="btn btn-success" name="buttonDone" id="buttonDone">Mes Pasado</button>
 						</div>
 						<div class="btn-group" role="group">
-							<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalWork" name="buttonWork" id="buttonWork">Orden Trabajo*</button>
+							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalWork" name="buttonWork" id="buttonWork">Orden Trabajo*</button>
 						</div>
 						<div class="btn-group" role="group">
-							<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalMuns" name="buttonMuns" id="buttonMuns">Orden de Compra*</button>
+							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalMuns" name="buttonMuns" id="buttonMuns">Orden de Compra*</button>
 						</div>
 						<div class="btn-group" role="group">
-							<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalClient" name="buttonClient" id="buttonClient">Ordenes de Cliente*</button>
+							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalClient" name="buttonClient" id="buttonClient">Ordenes de Cliente*</button>
 						</div>
 						
 					</div>
@@ -282,7 +285,7 @@
 									<div class="checkbox col-md-offset-1">
 										<label>
 											<input type="hidden" name="FechaReal" id="FechaRealHidden" value="0">
-											<input type="checkbox" name="FechaReal" id="FechaRealHidden" value="1">Fecha Real
+											<input type="checkbox" name="FechaReal" id="FechaRealHidden" value="1">Fecha Terminado
 										</label>
 									</div>
 									<div class="checkbox col-md-offset-1">
@@ -332,12 +335,22 @@
 									</div>
 
 									<div class="form-group row">
-										<label for="WhereAvaIs" class="col-sm-6 col-form-label">
-											<input type="hidden" name="WhereProg" id="WhereProogHidden" value="0">
-											<input type="checkbox" name="WhereProg" id="WhereProg" value="1"> Proceso Actual  =/=
+										<label for="WhereProgIs" class="col-sm-6 col-form-label">
+											<input type="hidden" name="WhereProg" id="WhereProgHidden" value="0">
+											<input type="checkbox" name="WhereProg" id="WhereProg" value="1"> Proceso Actual  ==
 										</label>
 										<div class="col-sm-6">
-											<input class="form-control" type="text" placeholder="Buscar por Estado" name="WhereProgIs" id="WhereProgIs">
+											<input class="form-control" type="text" placeholder="Proceso es..." name="WhereProgIs" id="WhereProgIs">
+										</div>
+									</div>
+
+									<div class="form-group row">
+										<label for="WhereProgIsNot" class="col-sm-6 col-form-label">
+											<input type="hidden" name="WhereNotProg" id="WhereNotProgHidden" value="0">
+											<input type="checkbox" name="WhereNotProg" id="WhereNotProg" value="1"> Proceso Actual  =/=
+										</label>
+										<div class="col-sm-6">
+											<input class="form-control" type="text" placeholder="Proceso NO es..." name="WhereProgIsNot" id="WhereProgIsNot">
 										</div>
 									</div>
 
