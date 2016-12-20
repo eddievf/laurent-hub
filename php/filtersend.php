@@ -1,7 +1,7 @@
 <?php
 					
 
-					echo "--START** <br>";
+					
 					#SELECTS
 					$Orders = $_POST["Orders"];
 					$OrdenTrabajo = $_POST["OrdenTrabajo"];
@@ -22,6 +22,7 @@
 					$WhereMuns = $_POST["WhereMuns"];
 					$WhereClient = $_POST["WhereClient"];
 					$WhereProg = $_POST["WhereProg"];
+					$WhereNotProg = $_POST["WhereNotProg"];
 
 					#ORDERBY
 					$OrderBy = $_POST["OrderBy"];
@@ -90,95 +91,104 @@
 
 					echo "WOW, array count is --> ".$selectcount."<br>";
 
+					$query_string= "SELECT ";
+
 					if($selectcount>0){
 
-						echo "SELECT ";
+						//echo "SELECT ";
 						for ($i=0; $i < $selectcount-1; $i++) { 
-							echo $QuerySelect[$i].", ";
+							$query_string .= $QuerySelect[$i].", ";
 						}
 
-						echo $QuerySelect[($selectcount-1)];
+						$query_string .= $QuerySelect[($selectcount-1)];
 					}
 
-					
-					//END SELECT IFS
-
-					echo "<br>FROM testorders, testpiezas <br> WHERE (testpiezas.ID = testorders.Pieza) <br>";
+					$query_string .= " FROM testorders, testpiezas WHERE (testpiezas.ID = testorders.Pieza) ";
 					
 					if ($WhereWork == 0){
-						echo "";
+						$query_string .= "";
 					}
 					else{
 						$WhereWorkOrder = $_POST["WhereWorkOrder"];
-						echo "AND OrdenTrabajo = ".$WhereWorkOrder."<br>";
+						$query_string .= "AND OrdenTrabajo = ".$WhereWorkOrder." ";
 					}
 
 					
 					if ($WhereMuns == 0){
-						echo "";
+						$query_string .= "";
 					}
 					else{
 						$WhereMunsOrder = $_POST["WhereMunsOrder"];
-						echo "AND OrdenCompra = ".$WhereMunsOrder."<br>";
+						$query_string .= "AND OrdenCompra = ".$WhereMunsOrder." ";
 					}
 
 					if ($WhereClient == 0){
-						echo "";
+						$query_string .= "";
 					}
 					else{
 						$WhereClientName = $_POST["WhereClientName"];
-						echo "AND testorders.Cliente LIKE '%".$WhereClientName."%' <br>";
+						$query_string .= "AND testorders.Cliente LIKE '%".$WhereClientName."%' ";
 					}
 
 					if($WhereProg == 0){
-						echo "";
+						$query_string .= "";
 					}
 					else{
 						$WhereProgIs = $_POST["WhereProgIs"];
-						echo "AND Progress NOT LIKE '%".$WhereProgIs."%' <br>";
+						$query_string .= "AND Progress LIKE '%".$WhereProgIs."%'  ";
+					}
+
+					if($WhereNotProg == 0){
+						$query_string .= "";
+					}
+					else{
+						$WhereProgIsNot = $_POST["WhereProgIsNot"];
+						$query_string .= "AND Progress NOT LIKE '%".$WhereProgIsNot."%'  ";
 					}
 
 					//END WHERE IFS
 
 					
 					if ($OrderBy == 0){
-						echo "ORDER BY OrdenTrabajo, Partida";
+						$query_string .= "ORDER BY OrdenTrabajo, Partida";
 					}
 					else{
-						echo "ORDER BY ";
+						$query_string .= "ORDER BY ";
 						
 						if($ReqDate == 0){
-							echo "";
+							$query_string .= "";
 						}
 						else{
 							if($WorkOrder == 0 && $MunsOrder == 0){
-								echo "FechaSolicitud ";
+								$query_string .= "FechaSolicitud ";
 							}
 							else{
-								echo "FechaSolicitud, ";
+								$query_string .= "FechaSolicitud, ";
 							}
 						}
 						
 						if($WorkOrder == 0){
-							echo "";
+							$query_string .= "";
 						}
 						else{
 							if($MunsOrder == 0){
-								echo "OrdenTrabajo";
+								$query_string .= "OrdenTrabajo";
 							}
 							else{
-								echo "OrdenTrabajo, ";
+								$query_string .= "OrdenTrabajo, ";
 							}
 						}
 						
 						if ($MunsOrder == 0){
-							echo "";
+							$query_string .= "";
 						}
 						else{
-							echo "OrdenCompra";
+							$query_string .= "OrdenCompra";
 						}
 
-						echo ", Partida";
+						$query_string .= ", Partida";
 					}
 
+
+echo $query_string;
 ?>
