@@ -80,8 +80,8 @@
 					<li><a href="#results">Informacion</a></li>
 				</ul>
 				<ul class="nav nav-sidebar">
-					<li><a href="#presets">Consultas Comunes</a></li>
-					<li><a href="#selects">Consulta Personal</a></li>
+					<li><a href="#presets">Opciones Predefinidas</a></li>
+					<li><a href="#selects">Solicitud Personalizada</a></li>
 				</ul>
 
 			</div>
@@ -112,7 +112,7 @@
 					<h2 class="sub-header">Consultas Predeterminadas</h2>
 					<div class="btn-group btn-group-justified" role="group" aria-label="...">
 						<div class="btn-group" role="group">
-							<button type="button" class="btn btn-success" onclick="" name="buttonOpen" id="buttonOpen">Ordenes Abiertas</button>
+							<button type="button" class="btn btn-warning" name="buttonOpen" id="buttonOpen">Ordenes Abiertas</button>
 						</div>
 						<div class="btn-group" role="group">
 							<button type="button" class="btn btn-danger" name="buttonStopped" id="buttonStopped">Proceso Detenido</button>
@@ -209,7 +209,7 @@
 
 				<div class="container-fluid" id="selects">
 					<h2 class="sub-header">Consultas Personalizadas</h2>
-					<form class="form-horizontal" role="form" method="POST" action="php/filtersend.php">
+					<form class="form-horizontal" role="form" method="POST" name="filterbuild" id="filterBuild">
 						<div class="row">
 							<div class="col-md-4">
 								<h3><u>Campos Disponibles</u></h3>
@@ -242,12 +242,6 @@
 									</div>
 									<div class="checkbox col-md-offset-1">
 										<label>
-											<input type="hidden" name="FechaSolicitud" id="FechaSolicitudHidden" value="0">
-											<input type="checkbox" name="FechaSolicitud" id="FechaSolicitud" value="1">Fecha de Solicitud
-										</label>
-									</div>
-									<div class="checkbox col-md-offset-1">
-										<label>
 											<input type="hidden" name="Partida" id="PartidaHidden" value="0">
 											<input type="checkbox" name="Partida" id="Partida" value="1">Partida
 										</label>
@@ -262,6 +256,12 @@
 										<label>
 											<input type="hidden" name="Cantidad" id="CantidadHidden" value="0">
 											<input type="checkbox" name="Cantidad" id="Cantidad" value="1">Cantidad
+										</label>
+									</div>
+									<div class="checkbox col-md-offset-1">
+										<label>
+											<input type="hidden" name="FechaSolicitud" id="FechaSolicitudHidden" value="0">
+											<input type="checkbox" name="FechaSolicitud" id="FechaSolicitud" value="1">Fecha de Solicitud
 										</label>
 									</div>
 									<div class="checkbox col-md-offset-1">
@@ -285,7 +285,7 @@
 									<div class="checkbox col-md-offset-1">
 										<label>
 											<input type="hidden" name="FechaReal" id="FechaRealHidden" value="0">
-											<input type="checkbox" name="FechaReal" id="FechaRealHidden" value="1">Fecha Terminado
+											<input type="checkbox" name="FechaReal" id="FechaRealHidden" value="1">Fecha Final
 										</label>
 									</div>
 									<div class="checkbox col-md-offset-1">
