@@ -75,5 +75,22 @@ $(document).ready(function(){
         $('#modalClient').modal('toggle');
     });
 
+    $('#filterBuild').submit(function(e){
+        e.preventDefault();
+        $.ajax({
+            url: 'php/filtersend.php',
+            type: 'POST',
+            dataType: 'HTML',
+            data: $('#filterBuild').serialize(),
+
+            success: function(response, textStatus, jqXHR){
+                $('#showFilter').html(response);
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                console.log('error(s):'+textStatus, errorThrown);
+            }
+
+        });
+    });
 
 });
