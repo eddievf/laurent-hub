@@ -5,17 +5,75 @@ $(document).ready(function(){
         e.preventDefault();
 
         //load php file
-        $('div.showFilter').load('php/filterOpen.php')
+        $('#showFilter').load('php/filterOpen.php')
     });
 
     $('#buttonStopped').on('click', function(e){
         e.preventDefault();
-        $('div.showFilter').load('php/filterStopped.php')
+        $('#showFilter').load('php/filterStopped.php')
     });
 
     $('#buttonDone').on('click', function(e){
         e.preventDefault();
-        $('div.showFilter').load('php/filterDone.php')
+        $('#showFilter').load('php/filterDone.php')
     });
+
+    $('#WorkOrderFilter').submit(function(e){
+        e.preventDefault();
+        $.ajax({
+            url: 'php/filterWorkOrder.php',
+            type: 'POST',
+            dataType: 'HTML',
+            data: $('#WorkOrderFilter').serialize(),
+
+            success: function(response, textStatus, jqXHR){
+                $('#showFilter').html(response);
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                console.log('error(s):'+textStatus, errorThrown);
+            }
+
+        });
+        $('#modalWork').modal('toggle');
+    });
+
+    $('#TemmieOrderFilter').submit(function(e){
+        e.preventDefault();
+        $.ajax({
+            url: 'php/filterTemmieOrder.php',
+            type: 'POST',
+            dataType: 'HTML',
+            data: $('#TemmieOrderFilter').serialize(),
+
+            success: function(response, textStatus, jqXHR){
+                $('#showFilter').html(response);
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                console.log('error(s):'+textStatus, errorThrown);
+            }
+
+        });
+        $('#modalMuns').modal('toggle');
+    });
+
+    $('#ClientFilter').submit(function(e){
+        e.preventDefault();
+        $.ajax({
+            url: 'php/filterClientName.php',
+            type: 'POST',
+            dataType: 'HTML',
+            data: $('#ClientFilter').serialize(),
+
+            success: function(response, textStatus, jqXHR){
+                $('#showFilter').html(response);
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                console.log('error(s):'+textStatus, errorThrown);
+            }
+
+        });
+        $('#modalClient').modal('toggle');
+    });
+
 
 });
