@@ -6,16 +6,19 @@ $(document).ready(function(){
 
         //load php file
         $('#showFilter').load('php/filterOpen.php')
+        $('body').animate({ scrollTop: 0 }, 360);
     });
 
     $('#buttonStopped').on('click', function(e){
         e.preventDefault();
         $('#showFilter').load('php/filterStopped.php')
+        $('body').animate({ scrollTop: 0 }, 360);
     });
 
     $('#buttonDone').on('click', function(e){
         e.preventDefault();
         $('#showFilter').load('php/filterDone.php')
+        $('body').animate({ scrollTop: 0 }, 360);
     });
 
     $('#WorkOrderFilter').submit(function(e){
@@ -35,6 +38,7 @@ $(document).ready(function(){
 
         });
         $('#modalWork').modal('toggle');
+        $('body').animate({ scrollTop: 0 }, 360);
     });
 
     $('#TemmieOrderFilter').submit(function(e){
@@ -54,6 +58,7 @@ $(document).ready(function(){
 
         });
         $('#modalMuns').modal('toggle');
+        $('body').animate({ scrollTop: 0 }, 360);
     });
 
     $('#ClientFilter').submit(function(e){
@@ -73,6 +78,7 @@ $(document).ready(function(){
 
         });
         $('#modalClient').modal('toggle');
+        $('body').animate({ scrollTop: 0 }, 360);
     });
 
     $('#filterBuild').submit(function(e){
@@ -91,6 +97,7 @@ $(document).ready(function(){
             }
 
         });
+        $('body').animate({ scrollTop: 0 }, 500);
     });
 
 });
