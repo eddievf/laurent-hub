@@ -14,8 +14,8 @@ echo '
         <th class = "col-md-0">Cant.</th>
         <th class = "col-md-1">Fecha Solicitud</th>
         <th class = "col-md-1">Avance</th>
-        <th class = "col-md-2">Estado Actual</th>
-        <th class = "col-md-1">Fecha Real</th>
+        <th class = "danger col-md-2">Estado Actual</th>
+        <th class = "col-md-1">Fecha Programada</th>
       </tr>
     </thead>
 
@@ -49,7 +49,7 @@ echo '
 	try{
 		$conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$stmt = $conn->prepare("SELECT OrdenTrabajo, OrdenCompra, testorders.Cliente, Partida, Descripcion, Cantidad, FechaSolicitud, Avance, Progress, FechaReal
+		$stmt = $conn->prepare("SELECT OrdenTrabajo, OrdenCompra, testorders.Cliente, Partida, Descripcion, Cantidad, FechaSolicitud, Avance, Progress, FechaCompromiso
 								FROM testOrders, testPiezas
 								WHERE (testpiezas.id)=(testorders.pieza)
 								AND Progress LIKE '%falta%'
@@ -66,7 +66,8 @@ echo '
 		}
 	}
 	catch (PDOException $e){
-		echo "[OH NO, UN DUEÑAS]".$e->getMessage();
+		echo "
+			<div class= 'alert alert-danger'><p class='text-center'><strong>[ERROR] </strong> :: <u>".$e->getMessage()."</u> :: (error: JD07)</p></div>";
 	}
 
 	$conn = null;
