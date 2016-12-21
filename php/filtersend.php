@@ -174,7 +174,15 @@
 		$query_string .= ", Partida";
 	}
 
-	echo $query_string;
+	echo '
+		<div class="btn-group" role="group" aria-label="...">
+			<div class="btn-group" role="group">
+				<button type="button" class="btn btn-primary name="buttonPDF" id="buttonPDF">
+					<span class="glyphicon glyphicon-file"></span> Generar Documento
+				</button>
+			</div>
+		</div>
+	';
 
 	echo '
 		<h2>ORDENES EN PROGRESO</h2>
@@ -182,37 +190,37 @@
     		<thead>
       			<tr>';
         			if ($OrdenTrabajo == 1){
-        				echo '<th class = "col-md-0">Orden Trabajo</th>';
+        				echo '<th class = "col-md-1">Orden Trabajo</th>';
         			}
         			if ($OrdenCompra == 1){
-        				echo '<th class = "col-md-0">Orden Compra</th>';
+        				echo '<th class = "col-md-1">Orden Compra</th>';
         			}
         			if ($Cliente == 1){
         				echo '<th class = "col-md-1">Cliente</th>';
         			}
         			if ($Partida == 1){
-        				echo '<th class = "col-md-0">Partida</th>';
+        				echo '<th class = "col-md-1">Partida</th>';
         			}
         			if ($Pieza == 1){
         				echo '<th class = "col-md-4">Pieza</th>';
         			}
         			if ($Cantidad == 1){
-        				echo '<th class = "col-md-0">Cant.</th>';
+        				echo '<th class = "col-md-1">Cant.</th>';
         			}
         			if ($FechaSolicitud == 1){
         				echo '<th class = "col-md-1">Fecha Solicitud</th>';
         			}
         			if ($Avance == 1){
-        				echo '<th class = "col-md-1">Estado Actual</th>';
+        				echo '<th class = "col-md-2">Estado Actual</th>';
         			}
         			if ($Progress == 1){
-        				echo '<th class = "col-md-2">Avance</th>';
+        				echo '<th class = "col-md-1">Avance</th>';
         			}
         			if ($FechaCompromiso == 1){
-        				echo '<th class = "col-md-1">Fecha Compromiso</th>';
+        				echo '<th class = "col-md-1">Fecha Estimada</th>';
         			}
         			if ($FechaReal == 1){
-        				echo '<th class = "col-md-1">Fecha Final</th>';
+        				echo '<th class = "col-md-1">Fecha Entrega</th>';
         			}
         			if ($Factura == 1){
         				echo '<th class = "col-md-1">Factura</th>';
