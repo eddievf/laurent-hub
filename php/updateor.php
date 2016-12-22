@@ -86,7 +86,7 @@
 			<?php
 
 				date_default_timezone_set("America/Monterrey");
-				$echofun = date("Y-m-d H:i:sa");
+				$echofun = date("Y-m-d H:i:s");
 
 
 				$servername = "localhost";
