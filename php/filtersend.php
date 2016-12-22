@@ -175,14 +175,14 @@
 	}
 
 	echo '
-		<div class="btn-group" role="group" aria-label="...">
-			<div class="btn-group" role="group">
-				<button type="button" class="btn btn-primary name="buttonPDF" id="buttonPDF">
-					<span class="glyphicon glyphicon-file"></span> Generar Documento
-				</button>
-			</div>
-		</div>
+		<form action="php/filterPDF.php" method="POST" id="pdfRequestForm">
+			<button type="submit" class="btn btn-primary" name="ReqPDF" id="ReqPDF">
+				<span class="glyphicon glyphicon-save-file"></span> Generar Reporte
+			</button>
+			
 	';
+	ob_start();
+
 
 	echo '
 		<h2>ORDENES EN PROGRESO</h2>
@@ -277,6 +277,10 @@
 	echo '
 	</tbody>
   </table> ';
+
+  $html = ob_get_contents();
+
+  echo "<input type='hidden' name='object' value='".$html."'/>";
 
 	
 ?>
