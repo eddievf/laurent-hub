@@ -1,8 +1,16 @@
 <?php
-echo '
+	$WorkOrderNumber = $_POST["WorkOrderNumber"];
 
-  <h2>ORDENES EN PROGRESO</h2>
-  
+	echo '
+  	<form action="php/pdfWork.php" target="_blank" method="POST" id="pdfRequestOpen">
+			<button type="submit" class="btn btn-primary" name="ReqPDF" id="ReqPDF">
+				<span class="glyphicon glyphicon-save-file"></span> Generar Reporte
+			</button>
+  	<span class="text-info"><h2>Orden de Trabajo: <u>'.$WorkOrderNumber.'</u></h2></span>';
+
+  	ob_start();
+
+	echo '
   <table class="table table-striped table-hover table-bordered table-condensed">
     <thead>
       <tr>
@@ -45,7 +53,7 @@ echo '
 	$password = "";
 	$dbname = "test";
 
-	$WorkOrderNumber = $_POST["WorkOrderNumber"];
+
 
 	try{
 		$conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
@@ -67,7 +75,8 @@ echo '
 		}
 	}
 	catch (PDOException $e){
-		echo "[OH NO, UN DUEÑAS]".$e->getMessage();
+		echo "
+			<div class= 'alert alert-danger'><p class='text-center'><strong>[ERROR] </strong> :: <u>".$e->getMessage()."</u> :: (error: JD07)</p></div>";
 	}
 
 	$conn = null;
@@ -76,7 +85,11 @@ echo '
 	echo '
 	</tbody>
   </table>
-';
+	';
+
+	$html = ob_get_contents();
+
+	echo "<input type='hidden' name='object' value='".$html."' />";
 
 ?>
 

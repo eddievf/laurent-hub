@@ -1,25 +1,33 @@
 <?php
-echo '
+	$TemmieOrderNumber = $_POST["TemmieOrderNumber"];
 
-  <h2>ORDENES EN PROGRESO</h2>
+	echo '
+  	<form action="php/pdfTemmie.php" target="_blank" method="POST" id="pdfRequestTemmie">
+			<button type="submit" class="btn btn-primary" name="ReqPDF" id="ReqPDF">
+				<span class="glyphicon glyphicon-save-file"></span> Generar Reporte
+			</button>
+  	<span class= "text-info"><h2>Orden de Compra: <u>'.$TemmieOrderNumber.'</u></h2></span>';
+
+  	ob_start();
+
+	echo '
   
-  <table class="table table-striped table-hover table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th class = "col-md-0">Orden Trabajo</th>
-        <th class = "col-md-0">Orden Compra</th>
-        <th class = "col-md-1">Cliente</th>
-        <th class = "col-md-0">Partida</th>
-        <th class = "col-md-4">Pieza</th>
-        <th class = "col-md-0">Cant.</th>
-        <th class = "col-md-1">Fecha Solicitud</th>
-        <th class = "col-md-1">Avance</th>
-        <th class = "col-md-2">Estado Actual</th>
-        <th class = "col-md-1">Fecha Real</th>
-      </tr>
-    </thead>
-
-    <tbody> ';
+  	<table class="table table-striped table-hover table-bordered table-condensed">
+    	<thead>
+      		<tr>
+        		<th class = "col-md-0">Orden Trabajo</th>
+        		<th class = "col-md-0">Orden Compra</th>
+        		<th class = "col-md-1">Cliente</th>
+        		<th class = "col-md-0">Partida</th>
+        		<th class = "col-md-4">Pieza</th>
+        		<th class = "col-md-0">Cant.</th>
+        		<th class = "col-md-1">Fecha Solicitud</th>
+        		<th class = "col-md-1">Avance</th>
+        		<th class = "col-md-2">Estado Actual</th>
+        		<th class = "col-md-1">Fecha Real</th>
+      		</tr>
+    	</thead>
+    	<tbody> ';
 	
 	class TableRows extends RecursiveIteratorIterator{
 		function __construct($it){
@@ -45,7 +53,7 @@ echo '
 	$password = "";
 	$dbname = "test";
 
-	$TemmieOrderNumber = $_POST["TemmieOrderNumber"];
+
 
 	try{
 		$conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
@@ -67,7 +75,8 @@ echo '
 		}
 	}
 	catch (PDOException $e){
-		echo "[OH NO, UN DUEÑAS]".$e->getMessage();
+		echo "
+			<div class= 'alert alert-danger'><p class='text-center'><strong>[OH NOES] </strong> :: <u>".$e->getMessage()."</u> :: (error: hOi01 - JD07)</p></div>";
 	}
 
 	$conn = null;
@@ -76,6 +85,10 @@ echo '
 	echo '
 	</tbody>
   </table>
-';
+	';
+
+	$html = ob_get_contents();
+
+	echo "<input type='hidden' name='object' value='".$html."' />";
 
 ?>

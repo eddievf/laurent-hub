@@ -1,25 +1,31 @@
 <?php
-echo '
+	echo '
+  	<form action="php/pdfOpen.php" target="_blank" method="POST" id="pdfRequestOpen">
+			<button type="submit" class="btn btn-primary" name="ReqPDF" id="ReqPDF">
+				<span class="glyphicon glyphicon-save-file"></span> Generar Reporte
+			</button>
+  	<span class="text-warning"><u><h2>ORDENES EN PROGRESO</h2></u></span>';
 
-  <h2>ORDENES EN PROGRESO</h2>
-  
-  <table class="table table-striped table-hover table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th class = "col-md-0">Orden Trabajo</th>
-        <th class = "col-md-0">Orden Compra</th>
-        <th class = "col-md-1">Cliente</th>
-        <th class = "col-md-0">Partida</th>
-        <th class = "col-md-4">Pieza</th>
-        <th class = "col-md-0">Cant.</th>
-        <th class = "col-md-1">Fecha Solicitud</th>
-        <th class = "col-md-1">Avance</th>
-        <th class = "col-md-2">Estado Actual</th>
-        <th class = "col-md-1">Fecha Real</th>
-      </tr>
-    </thead>
+  	ob_start();
 
-    <tbody> ';
+  	echo'
+  	<table class="table table-striped table-hover table-bordered table-condensed">
+    	<thead>
+      		<tr>
+        		<th class = "col-md-0">Orden Trabajo</th>
+        		<th class = "col-md-0">Orden Compra</th>
+        		<th class = "col-md-1">Cliente</th>
+        		<th class = "col-md-0">Partida</th>
+        		<th class = "col-md-4">Pieza</th>
+        		<th class = "col-md-0">Cant.</th>
+        		<th class = "col-md-1">Fecha Solicitud</th>
+        		<th class = "col-md-1">Avance</th>
+        		<th class = "col-md-2">Estado Actual</th>
+        		<th class = "col-md-1">Fecha Programada</th>
+      		</tr>
+    	</thead>
+
+    	<tbody> ';
 	
 	class TableRows extends RecursiveIteratorIterator{
 		function __construct($it){
@@ -50,7 +56,7 @@ echo '
 		$conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$stmt = $conn->prepare("SELECT OrdenTrabajo, OrdenCompra, testorders.Cliente, Partida, Descripcion, Cantidad,
-								FechaSolicitud, Avance, Progress, FechaReal
+								FechaSolicitud, Avance, Progress, FechaCompromiso
 								FROM testOrders, testPiezas
 								WHERE (testpiezas.id)=(testorders.pieza)
 								AND Progress <> 'Terminado'
@@ -69,7 +75,8 @@ echo '
 		}
 	}
 	catch (PDOException $e){
-		echo "[OH NO, UN DUEÑAS]".$e->getMessage();
+		echo "
+			<div class= 'alert alert-danger'><p class='text-center'><strong>[ERROR] </strong> :: <u>".$e->getMessage()."</u> :: (error: JD07)</p></div>";
 	}
 
 	$conn = null;
@@ -78,7 +85,11 @@ echo '
 	echo '
 	</tbody>
   </table>
-';
+	';
+
+	$html = ob_get_contents();
+
+	echo "<input type='hidden' name='object' value='".$html."'/>";
 
 ?>
 

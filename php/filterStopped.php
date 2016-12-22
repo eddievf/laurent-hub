@@ -1,7 +1,15 @@
 <?php
-echo '
+	echo '
+  	<form action="php/pdfStopped.php" target="_blank" method="POST" id="pdfRequestStopped">
+			<button type="submit" class="btn btn-primary" name="ReqPDF" id="ReqPDF">
+				<span class="glyphicon glyphicon-save-file"></span> Generar Reporte
+			</button>';
 
-  <h2>ORDENES EN PROGRESO</h2>
+  	ob_start();
+
+  	echo '
+
+<span class= "text-danger"><u><h2>Ordenes Detenidas por Pendientes</h2></u></span>
   
   <table class="table table-striped table-hover table-bordered table-condensed">
     <thead>
@@ -76,6 +84,10 @@ echo '
 	echo '
 	</tbody>
   </table>
-';
+	';
+
+	$html = ob_get_contents();
+
+	echo "<input type='hidden' name='object' value='".$html."' />";
 
 ?>

@@ -175,17 +175,17 @@
 	}
 
 	echo '
-		<form action="php/filterPDF.php" method="POST" id="pdfRequestForm">
+		<form action="php/pdfFilter.php" target="_blank" method="POST" id="pdfRequestForm">
 			<button type="submit" class="btn btn-primary" name="ReqPDF" id="ReqPDF">
 				<span class="glyphicon glyphicon-save-file"></span> Generar Reporte
 			</button>
-			
+		<span class="text-info"><h2>Consulta Personalizada</h2></span>
 	';
 	ob_start();
 
 
 	echo '
-		<h2>ORDENES EN PROGRESO</h2>
+		
 		<table class="table table-striped table-hover table-bordered table-condensed">
     		<thead>
       			<tr>';
