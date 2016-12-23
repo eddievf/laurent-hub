@@ -30,7 +30,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>[PYMAQ] PDF TITLE PAGE</title>
+	<title>[PYMAQ] PDF - Consulta Personalizada - Maquinados</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -41,7 +41,7 @@
 	<table width="100%" style="margin-bottom: 20px; border-bottom: 1px solid #CC6600; vertical-align: bottom; font-family: serif; font-size: 9pt; color: #000000;">
 		<tr>
 			<td width="33%"><img src="logo.jpg" width="160px" /></td>
-			<td width="33%" align="center"><span style="font-family: Arial; color: #000000; font-weight: bold; font-size:16pt;">MAQUINADOS<br>Consulta Personal, Ordenes</span></td>
+			<td width="33%" align="center"><span style="font-family: Arial; color: #000000; font-weight: bold; font-size:16pt;">MAQUINADOS<br>Consulta Detallada de Ordenes</span></td>
 			<td width="33%" style="text-align: right; font-family: Arial; font-size: 14pt;">Hora y Fecha de Actualización<br> <span style="font-weight: bold; font-size:14pt;"><?php echo $echofun; ?></span></td>
 		</tr>
 		<br>

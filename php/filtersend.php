@@ -21,9 +21,19 @@
 	$WhereProg = $_POST["WhereProg"];
 	$WhereNotProg = $_POST["WhereNotProg"];
 
+	#DATES
+	$BetweenReqDate = $_POST["BetweenReqDate"];
+	$BetweenCompDate = $_POST["BetweenCompDate"];
+	$BetweenRealDate =$_POST["BetweenRealDate"];
+
 	#ORDERBY
 	$OrderBy = $_POST["OrderBy"];
+		$ReqDateDESC = $_POST["ReqDateDESC"];
 		$ReqDate = $_POST["ReqDate"];
+		$CompDateDESC = $_POST["CompDateDESC"];
+		$CompDate = $_POST["CompDate"];
+		$RealDateDESC = $_POST["RealDateDESC"];
+		$RealDate = $_POST["RealDate"];
 		$WorkOrder = $_POST["WorkOrder"];
 		$MunsOrder = $_POST["MunsOrder"];
 
@@ -90,6 +100,8 @@
 	}
 
 	$query_string .= " FROM testorders, testpiezas WHERE (testpiezas.ID = testorders.Pieza) ";
+
+	//WHERE-IFS
 					
 	if ($WhereWork == 0){
 		$query_string .= "";
@@ -99,7 +111,6 @@
 		$query_string .= "AND OrdenTrabajo = ".$WhereWorkOrder." ";
 	}
 
-					
 	if ($WhereMuns == 0){
 		$query_string .= "";
 	}
@@ -134,45 +145,98 @@
 
 	//END WHERE IFS
 
+	//DATES
+	if($BetweenReqDate == 1){
+		$BetweenDateA = $_POST["myDateA"];
+		$BetweenDateB = $_POST["myDateB"];
+
+		if($BetweenDateB > $BetweenDateA){
+			$query_string .= "AND (FechaSolicitud BETWEEN '".$BetweenDateA."' AND '".$BetweenDateB."') ";
+		}
+		else{
+			echo "
+			<div class= 'alert alert-danger'><p class='text-center'><strong>[ERROR] </strong> :: <u>Fecha Final es Posterior a Fecha Inicio</u> :: (error: JD08)</p></div>";
+		}
+ 	}
+
+ 	if($BetweenCompDate == 1){
+		$BetweenDateA = $_POST["myDateA"];
+		$BetweenDateB = $_POST["myDateB"];
+
+		if($BetweenDateB > $BetweenDateA){
+			$query_string .= "AND (FechaCompromiso BETWEEN '".$BetweenDateA."' AND '".$BetweenDateB."') ";
+		}
+		else{
+			echo "
+			<div class= 'alert alert-danger'><p class='text-center'><strong>[ERROR] </strong> :: <u>Fecha Final es Posterior a Fecha Inicio</u> :: (error: JD08)</p></div>";
+		}
+ 	}
+
+ 	if($BetweenRealDate == 1){
+		$BetweenDateA = $_POST["myDateA"];
+		$BetweenDateB = $_POST["myDateB"];
+
+		if($BetweenDateB > $BetweenDateA){
+			$query_string .= "AND (FechaReal BETWEEN '".$BetweenDateA."' AND '".$BetweenDateB."') ";
+		}
+		else{
+			echo "
+			<div class= 'alert alert-danger'><p class='text-center'><strong>[ERROR] </strong> :: <u>Fecha Final es Posterior a Fecha Inicio</u> :: (error: JD08)</p></div>";
+		}
+ 	}
+ 	//END DATES
 					
 	if ($OrderBy == 0){
 		$query_string .= "ORDER BY OrdenTrabajo, Partida";
 	}
 	else{
+
 		$query_string .= "ORDER BY ";
 						
-		if($ReqDate == 0){
-			$query_string .= "";
+		if($ReqDate == 1){
+			$QueryOrder[] = "FechaSolicitud";
 		}
-		else{
-			if($WorkOrder == 0 && $MunsOrder == 0){
-				$query_string .= "FechaSolicitud ";
-			}
-			else{
-				$query_string .= "FechaSolicitud, ";
-			}
+
+		if($ReqDateDESC == 1){
+			$QueryOrder[] = "FechaSolicitud DESC";
+		}
+
+		if($CompDateDESC == 1){
+			$QueryOrder[] = "FechaCompromiso DESC";
+		}
+
+		if($CompDate == 1){
+			$QueryOrder[] = "FechaCompromiso";
+		}
+
+		if($RealDateDESC == 1){
+			$QueryOrder[] = "FechaReal DESC";
+		}
+
+		if($RealDate == 1){
+			$QueryOrder[] = "FechaReal";
 		}
 						
-		if($WorkOrder == 0){
-			$query_string .= "";
+		if($WorkOrder == 1){
+			$QueryOrder[] = "OrdenTrabajo";
 		}
-		else{
-			if($MunsOrder == 0){
-				$query_string .= "OrdenTrabajo";
-			}
-			else{
-				$query_string .= "OrdenTrabajo, ";
-			}
-		}
+		
 						
-		if ($MunsOrder == 0){
-			$query_string .= "";
+		if ($MunsOrder == 1){
+			$QueryOrder[] = "OrdenCompra";
 		}
-		else{
-			$query_string .= "OrdenCompra";
+
+		$orderbycount = count($QueryOrder);
+
+		if($orderbycount>0){
+		for ($i=0; $i < $orderbycount; $i++) { 
+			$query_string .= $QueryOrder[$i].", ";
 		}
-		$query_string .= ", Partida";
+		$query_string .= " Partida";
+		}
 	}
+
+	//echo $query_string;
 
 	echo '
 		<form action="php/pdfFilter.php" target="_blank" method="POST" id="pdfRequestForm">
@@ -217,7 +281,7 @@
         				echo '<th class = "col-md-1">Avance</th>';
         			}
         			if ($FechaCompromiso == 1){
-        				echo '<th class = "col-md-1">Fecha Estimada</th>';
+        				echo '<th class = "col-md-1">Fecha Programada</th>';
         			}
         			if ($FechaReal == 1){
         				echo '<th class = "col-md-1">Fecha Entrega</th>';

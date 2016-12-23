@@ -61,7 +61,7 @@
 								WHERE (testpiezas.id)=(testorders.pieza)
 								AND Progress <> 'Terminado'
 								AND Progress <> 'Finalizado'
-								AND Progress <> 'OK'
+								AND Progress NOT LIKE '%OK%'
 								AND Progress <> 'Entregado'
 								ORDER BY FechaSolicitud, Partida");
 
