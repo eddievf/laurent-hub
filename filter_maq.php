@@ -295,6 +295,43 @@
 									</div>
 								
 								</div>
+
+								<h3><u>Rango de Tiempo</u></h3>
+								<div class="form-group">
+									<div class="checkbox">
+										<label>
+											<input type="hidden" name="BetweenReqDate" id="BetweenReqDateHidden" value="0">
+											<input type="checkbox" name="BetweenReqDate" id="BetweenReqDate" value="1"><b>Fecha de Solicitud</b>
+										</label>
+									</div>
+									<div class="checkbox">
+										<label>
+											<input type="hidden" name="BetweenCompDate" id="BetweenCompDateHidden" value="0">
+											<input type="checkbox" name="BetweenCompDate" id=BetweenCompDate" value="1"><b>Fecha Programada</b>
+										</label>
+									</div>
+									<div class="checkbox">
+										<label>
+											<input type="hidden" name="BetweenRealDate" id="BetweenRealDateHidden" value="0">
+											<input type="checkbox" name="BetweenRealDate" id="BetweenRealDate" value="1"><b>Fecha de Entrega</b>
+										</label>
+										<br><br>
+									</div>
+									<div class="form-group row">
+										<label for="myDateA" class="col-sm-2 col-md-offset-1 col-form-label">Fecha Inicial</label>
+										<div class="col-sm-6">
+											<input class="form-control" type="date" placeholder="Fecha A" name="myDateA" id="myDateA">
+										</div>
+									</div>
+									<div class="form-group row">
+										<label for="myDateB" class="col-sm-2 col-md-offset-1 col-form-label">Fecha Final</label>
+										<div class="col-sm-6">
+											<input class="form-control" type="date" placeholder="Fecha B" name="myDateB" id="myDateB">
+										</div>
+									</div>
+								</div>
+
+
 							</div>
 
 							<div class="col-md-4 col-md-push-1">
@@ -359,13 +396,43 @@
 									<div class="checkbox">
 										<label>
 											<input type="hidden" name="OrderBy" id="OrderByHidden" value="0">
-											<input type="checkbox" name="OrderBy" id="OrderBy" value="1"><b>Ordenar por Campos<b>
+											<input type="checkbox" name="OrderBy" id="OrderBy" value="1"><b>Ordenar por Campos</b>
+										</label>
+									</div>
+									<div class="checkbox col-md-offset-1">
+										<label>
+											<input type="hidden" name="ReqDateDESC" id="ReqDateDESCHidden" value="0">
+											<input type="checkbox" name="ReqDateDESC" id="ReqDateDESC" value="1">Fecha Solicitud, <u>Recientes</u>
 										</label>
 									</div>
 									<div class="checkbox col-md-offset-1">
 										<label>
 											<input type="hidden" name="ReqDate" id="ReqDateHidden" value="0">
-											<input type="checkbox" name="ReqDate" id="ReqDate" value="1">Fecha de Solicitud
+											<input type="checkbox" name="ReqDate" id="ReqDate" value="1">Fecha Solicitud, <em>Anterior</em>
+										</label>
+									</div>
+									<div class="checkbox col-md-offset-1">
+										<label>
+											<input type="hidden" name="CompDateDESC" id="CompDateDESCHidden" value="0">
+											<input type="checkbox" name="CompDateDESC" id="CompDateDESC" value="1">Fecha Programada, <u>Recientes</u>
+										</label>
+									</div>
+									<div class="checkbox col-md-offset-1">
+										<label>
+											<input type="hidden" name="CompDate" id="CompDateHidden" value="0">
+											<input type="checkbox" name="CompDate" id="CompDate" value="1">Fecha Programada, <em>Anterior</em>
+										</label>
+									</div>
+									<div class="checkbox col-md-offset-1">
+										<label>
+											<input type="hidden" name="RealDateDESC" id="RealDateDESCHidden" value="0">
+											<input type="checkbox" name="RealDateDESC" id="RealDateDESC" value="1">Fecha Entrega, <u>Recientes</u>
+										</label>
+									</div>
+									<div class="checkbox col-md-offset-1">
+										<label>
+											<input type="hidden" name="RealDate" id="RealDateHidden" value="0">
+											<input type="checkbox" name="RealDate" id=RealDate" value="1">Fecha Entrega, <em>Anterior</em>
 										</label>
 									</div>
 									<div class="checkbox col-md-offset-1">
