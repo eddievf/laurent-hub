@@ -213,11 +213,12 @@
 							<div class="col-md-4">
 								<h3><u>Campos Disponibles</u></h3>
 								<div class="form-group">
+								<span id="selectchecks">
 
 									<div class="checkbox">
 										<label>
-											<input type="hidden" name="Orders" id="OrdersHidden" value="0">
-											<input type="checkbox" name="Orders" id="Orders" value="1"><b>Seleccionar Todos</b>
+											<!--<input type="hidden" name="OrdersAll" id="OrdersHidden" value="0">-->
+											<input type="checkbox" name="OrdersAll" id="OrdersAll" value="1"><b>Seleccionar Todos</b>
 										</label>
 									</div>
 
@@ -293,6 +294,7 @@
 											<input type="checkbox" name="Factura" id="Factura" value="1">Factura
 										</label>
 									</div>
+								</span>
 								
 								</div>
 
