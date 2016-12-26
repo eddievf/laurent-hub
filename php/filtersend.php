@@ -1,6 +1,5 @@
 <?php
 	#SELECTS
-	$Orders = $_POST["Orders"];
 	$OrdenTrabajo = $_POST["OrdenTrabajo"];
 	$OrdenCompra = $_POST["OrdenCompra"];
 	$Cliente = $_POST["Cliente"];
