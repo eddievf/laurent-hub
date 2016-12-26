@@ -1,4 +1,8 @@
 $(document).ready(function(){
+
+    $('#OrdersAll').click(function(){
+        $('#selectchecks input[type="checkbox"]').prop('checked', this.checked)
+    });
     
     $('#buttonOpen').on('click', function(e){
         //preventing href from being followed
@@ -99,5 +103,6 @@ $(document).ready(function(){
         });
         $('body').animate({ scrollTop: 0 }, 500);
     });
+
 
 });
