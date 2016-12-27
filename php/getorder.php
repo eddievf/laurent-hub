@@ -87,17 +87,27 @@ echo "
         </div>
     </div>
 
+    <div class='form-group row'>
+        <label for='WhereClientName' class='col-sm-2 col-form-label'>
+            <input type='hidden' name='ValidEnd' id='ValidEndHidden' value='0'>
+            <input class='checkbox style-2 pull-right' type='checkbox' name='ValidEnd' id='ValidEnd' value='1'><mark>¿Terminada? </mark></p>
+        </label>
+        <div class='col-sm-6'>
+            <input class='form-control' type='date' placeholder='Fecha de Entrega' name='FechaReal' id='FechaReal'>
+        </div>
+    </div>
+
     <div class = 'form-group row'>
         <label for = 'NewProgress' class = 'col-sm-2 col-form-label'>Proceso Actual</label>
         <div class = 'col-sm-6'>
-        <input class = 'form-control' type='text' name = 'NewProgress' id = 'NewProgress' title = 'Ingresar el Proceso Actual del Producto' required>
+        <input class = 'form-control' type='text' name = 'NewProgress' id = 'NewProgress' placeholder = 'Ingresar el Proceso Actual de la Pieza' required>
         </div>
     </div>
 
     <div class = 'form-group row'>
         <label for = 'NewAvance' class = 'col-sm-2 col-form-label'>(%) Avance Actual</label>
         <div class = 'col-sm-6'>
-        <input class = 'form-control' type='number' name = 'NewAvance' id = 'NewAvance' required>
+        <input class = 'form-control' type='number' name = 'NewAvance' id = 'NewAvance' placeholder = 'Porcentaje de Avance' required>
         </div>
     </div>
     

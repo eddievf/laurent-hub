@@ -99,7 +99,7 @@
 					$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 					$stmt = $conn->prepare("UPDATE testorders
-											SET Progress = :UpdateProgress, Avance = :UpdateAvance
+											SET Progress = :UpdateProgress, Avance = :UpdateAvance, FechaReal = :FechaReal
 											WHERE ID = :recordID");
 
 					$log = $conn->prepare(" INSERT INTO testlog (WorkOrder, WorkDiv, PrevProgress, NewProgress, PrevAvance, 
@@ -114,6 +114,9 @@
 					$PrevAvance = $_POST['PrevAvance'];
 					$NewProgress = $_POST['NewProgress'];
 					$NewAvance = $_POST['NewAvance'];
+					$ValidEnd = $_POST['ValidEnd'];
+					echo "VALID END -> ".$ValidEnd;
+					$FechaReal = 0;
 
 				?>
 				<div class="panel panel-default" id="success">
@@ -127,6 +130,11 @@
 					echo "<li class='list-group-item'><strong>Orden Trabajo</strong>: ".$OrdenTrabajo."</li>";
 					echo "<li class='list-group-item'><strong>Partida</strong>: ".$Partida."</li>";
 
+					if($ValidEnd == 1){
+						$FechaReal = $_POST['FechaReal'];
+						
+					}
+					echo "<li class = 'list-group-item'><strong>Fecha de Entrega</strong> (si aplica): ".$FechaReal."</li>";
 					echo "<li class='list-group-item'><strong>Proceso Nuevo</strong>: ".$NewProgress."</li>";
 					echo "<li class='list-group-item'><strong>% Avance Nuevo</strong>: ".$NewAvance."</li></ul>";
 
@@ -151,6 +159,7 @@
 					$stmt->bindParam(':UpdateProgress', $NewProgress);
 					$stmt->bindParam(':UpdateAvance', $NewAvance);
 					$stmt->bindParam(':recordID', $recordID);
+					$stmt->bindParam(':FechaReal', $FechaReal);
 					$stmt->execute();
 					echo "
 							<p><strong>[STMT]</strong> :: <u>La Orden ha sido actualizada con la información más reciente</u></p>
