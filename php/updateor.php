@@ -17,7 +17,7 @@
 
 
 	<?php
-	header("refresh: 5; url= http://localhost/indevdep/forms_maq.php");
+	header("refresh: 3; url= http://localhost/indevdep/forms_maq.php");
 	//database connection
     try{
       $servername = "localhost";
@@ -115,7 +115,6 @@
 					$NewProgress = $_POST['NewProgress'];
 					$NewAvance = $_POST['NewAvance'];
 					$ValidEnd = $_POST['ValidEnd'];
-					echo "VALID END -> ".$ValidEnd;
 					$FechaReal = 0;
 
 				?>
