@@ -100,6 +100,7 @@
 							   				 FROM testorders, testpiezas
 											 WHERE (testorders.Pieza = testpiezas.ID)
 											 AND Progress <> 'Finalizado'
+											 AND Progress <> 'Ok'
 											 AND Progress <> 'Entregado'
 											 ORDER BY RAND()
 											 LIMIT 4 ");
@@ -242,7 +243,7 @@
     
     						<div class = 'form-group row'>
         						<div class = 'offset-sm-2 col-sm-10'>
-        							<button type = 'button' class = 'btn btn-primary' onclick="ajaxFunction()">Buscar</button>
+        							<button type = 'button' class = 'btn btn-primary col-sm-offset-7' onclick="ajaxFunction()">Buscar</button>
         						</div>
     						</div>
     
