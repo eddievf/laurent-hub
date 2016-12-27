@@ -99,3 +99,30 @@ function showOrder(str) {
         xmlhttp.send();
     }
 }
+
+function showProduct(str){
+   if (str == "") {
+        document.getElementById("productHint").innerHTML = "";
+        return;
+    }
+    else { 
+        if (window.XMLHttpRequest) {
+            // code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        }
+        else {
+            // code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("productHint").innerHTML = this.responseText;
+            }
+        };
+        xmlhttp.open("GET","php/getproduct.php?prod="+str,true);
+        xmlhttp.send();
+    }
+}
+
+
