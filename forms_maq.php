@@ -80,8 +80,7 @@
 				<ul class="nav nav-sidebar">
 					<li><a href="#morework">Ordenes Nuevas</a></li>
 					<li><a href="#updatework">Actualizacion de Ordenes</a></li>
-					<li><a href="#consultas">Consultas</a></li>
-					<li><a href="#">Export</a></li>
+					<li><a href="#closingwork">Cierre de Ordenes</a></li>
 				</ul>
 			</div>
 			<!--end sidebar-->
@@ -96,7 +95,7 @@
 							
 							<div class="jumbotron jumbotron-fluid">
 								<div class="container">
-									<h2 class="display-3">Formulario para Ordenes Nuevas</h2>
+									<h2 class="display-3">Registro de Ordenes Nuevas</h2>
 									<p class="lead text-muted"><i>Ingresar los datos de las Ordenes de Trabajo a Producir</i></p><br>
 								</div>
 
@@ -187,16 +186,17 @@
 				<div class="container-fluid" id="updatework">
 					<div class="jumbotron jumbotron-fluid">
 						<div class="container">
-							<h2 class="display-3">Formulario de Actualización de Ordenes</h2>
+							<h2 class="display-3">Actualización de Ordenes</h2>
 							<p class="lead text-muted"><i>Actualizar Información de las Ordenes en Proceso</i></p><br>
 						</div>
 						<div class="container">
-							<select class="custom-select selectpicker offset-sm-2 col-sm-3" name="orders" data-live-search="true" onchange="showOrder(this.value)">
+							<select class="custom-select selectpicker offset-sm-2 col-sm-8" name="orders" data-live-search="true" onchange="showOrder(this.value)">
 							  <?php
 
-							      $selectorder = ("SELECT ID, OrdenTrabajo, Partida, Progress
-							                 FROM testorders
-							                 WHERE Progress <> 'Entregado'
+							      $selectorder = ("SELECT testorders.ID, OrdenTrabajo, Partida, Descripcion, Progress
+							                 FROM testorders, testpiezas
+							                 WHERE (testpiezas.id)=(testorders.pieza)
+							                 AND Progress <> 'Entregado'
 							                 ORDER BY OrdenTrabajo, Partida");
 
 							      $data = $conn->prepare($selectorder);
@@ -205,7 +205,7 @@
 
 							      while($row=$data->fetch(PDO::FETCH_ASSOC)){
 							        
-							        echo '<option value="'.$row['ID'].'">'.$row['OrdenTrabajo'].' - Partida '.$row['Partida'].'</option>';
+							        echo '<option value="'.$row['ID'].'">'.$row['OrdenTrabajo'].' - '.$row['Descripcion'].'</option>';
 							      }
 
 							    ?>
@@ -218,6 +218,8 @@
 						<br>
 					</div>
 				</div><!--END OF UPDATE-->
+
+				
 					
 
 			</div><!--Main Content until here-->	
