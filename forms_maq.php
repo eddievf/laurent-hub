@@ -79,8 +79,8 @@
 			<div class="col-sm-3 col-md-2 sidebar affix" id="side-nav">
 				<ul class="nav nav-sidebar">
 					<li><a href="#morework">Ordenes Nuevas</a></li>
-					<li><a href="#updatework">Actualizacion de Ordenes</a></li>
-					<li><a href="#closingwork">Cierre de Ordenes</a></li>
+					<li><a href="#updatework">Actualización de Ordenes</a></li>
+					<li><a href="#lookproduct">Actualización de Piezas</a></li>
 				</ul>
 			</div>
 			<!--end sidebar-->
@@ -219,6 +219,48 @@
 					</div>
 				</div><!--END OF UPDATE-->
 
+				<!--START OF UPDATE PIECES-->
+				<div class="container-fluid" id="lookproduct">
+					<div class="jumbotron jumbotron-fluid">
+						<div class="container">
+							<h2 class="display-3">Información de Productos</h2>
+							<p class="lead text-muted"><i>Registro y/o actualización de información de productos</i></p><br>
+						</div>
+						<div class="container">
+							<select class="custom-select selectpicker offset-sm-2 col-sm-8" name="products" data-live-search="true" onchange="showProduct(this.value)">
+								<?php
+
+									$selectprods = ("SELECT ID, Descripcion, Cliente, CodigoProducto, Filepath
+													 FROM testpiezas
+													 ORDER BY ID");
+									$prod = $conn->prepare($selectprods);
+									$prod->execute();
+
+									while ($lane=$prod->fetch(PDO::FETCH_ASSOC)){
+										echo '<option data-tokens="'.$lane['CodigoProducto'].'" value="'.$lane['ID'].'">'.$lane['Descripcion'].' - '.$lane['Cliente'].'</option>';
+									}
+
+								?>
+							</select>
+						</div>
+						<br>
+						<div class="container" id="productHint"><b> Seleccione el Producto del Menú Superior </b></div>
+						<br><br>
+					</div>
+				</div><!--END OF UPDATE PIECES-->
+
+				<!--START OF NEW PIECES-->
+				<div class="container-fluid" id="validorder">
+					<div class="jumbotron jumbotron-fluid">
+						<div class="container">
+							<h2 class="display-3">Validacion de Ordenes de Trabajo</h2>
+							<p class="lead text-muted"><i>Revision y Liberación de Ordenes de Trabajo</i></p><br>
+						</div>
+						<div class="container">
+							<p>placeholder for Validation form (colors, pretty scheeet huh)</p>
+						</div>
+					</div>
+				</div>
 				
 					
 
