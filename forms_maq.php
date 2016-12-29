@@ -249,7 +249,7 @@
 					</div>
 				</div><!--END OF UPDATE PIECES-->
 
-				<!--START OF NEW PIECES-->
+				<!--START OF ORDER VALIDATION-->
 				<div class="container-fluid" id="validorder">
 					<div class="jumbotron jumbotron-fluid">
 						<div class="container">
