@@ -227,7 +227,7 @@
 							<p class="lead text-muted"><i>Registro y/o actualización de información de productos</i></p><br>
 						</div>
 						<div class="container">
-							<select class="custom-select selectpicker offset-sm-2 col-sm-8" name="products" data-live-search="true" onchange="showProduct(this.value)">
+							<select class="custom-select selectpicker offset-sm-2 col-sm-9" name="products" data-live-search="true" onchange="showProduct(this.value)">
 								<?php
 
 									$selectprods = ("SELECT ID, Descripcion, Cliente, CodigoProducto, Filepath
