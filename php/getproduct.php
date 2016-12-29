@@ -18,7 +18,7 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
 //$sql="SELECT * FROM testorders WHERE id = '".$prod."'";
-$query = "SELECT ID, Descripcion, Cliente, CodigoProducto, Filepath
+$query = "SELECT ID, ProdKey, Descripcion, Cliente, CodigoProducto, Filepath
           FROM testpiezas
           WHERE (ID = :ID)";
 
@@ -32,6 +32,7 @@ $echofun = date("Y-m-d H:i:s");
 
 while($row=$data->fetch(PDO::FETCH_ASSOC)) {
     $ID = $row['ID'];
+    $ProdKey = $row['ProdKey'];
     $Descripcion = $row['Descripcion'];
     $Cliente = $row['Cliente'];
     $ProdCode =  $row['CodigoProducto'];
@@ -72,18 +73,25 @@ echo "
         <input class = 'form-control' type='text' value='".$ProdCode."' name = 'ProdCode' id = 'ProdCode'>
         </div>
     </div>
-    <div class = 'form-group row'>
-        <label for = 'Filepath' class = 'col-sm-2 col-form-label'>Archivo Existente</label>
-        <div class = 'col-sm-6'>
-        <input class = 'form-control' type='text' value ='".$Filepath."' name = 'Filepath' id = 'Filepath'>
+    <div class='form-group row'>
+        <label for='ProdSummary' class='col-sm-2 col-form-label'>Diseño Actual</label>
+        <div class='col-sm-6'>
+        ";
+        if($Filepath == NULL){
+            echo "<div class= 'alert alert-danger'><p class='text-center'><small><u>Aún no hay dibujo para este producto</u></small></p></div>";
+        }
+        else{
+            echo "<div class= 'alert alert-success'><p class = 'text-center'><small><a href = '/indevtest/fileHandler.php?file=".$ProdKey."'><span class='glyphicon glyphicon-download'></span> ".$Descripcion.".pdf</a></small></p></div>";
+        }
+        echo "
         </div>
     </div>
     <div class = 'form-group row'>
-        <label for='userfile' class='col-sm-2 col-form-label'>Dibujo</label>
+        <label for='userfile' class='col-sm-2 col-form-label'>Cargar Dibujo</label>
         <div class='col-sm-10'>
             <input type='hidden' name='MAX_FILE_SIZE' value='3145728' />
             <input type='file' name='userfile' id='userfile'>
-            <p class='help-block'> Solo se permite la subida de un <span class='glyphicon glyphicon-file'></span> .pdf</p>
+            <p class='help-block'> Solo se permite la subida de <span class='glyphicon glyphicon-file'></span>.pdf</p>
         </div>
     </div>
     
