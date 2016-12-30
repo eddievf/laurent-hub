@@ -193,8 +193,6 @@
 					$Departamento = $_POST['Departamento'];
 
 
-
-
 				?>
 				<div class="panel panel-default" id="success">
 					<div class="panel-heading">
@@ -213,11 +211,19 @@
 					}
 					
 					echo "<li class='list-group-item'><strong>Codigo de Pieza</strong>: ".$ProdCode."</li>";
-					echo "<li class='list-group-item'><strong>Departamento</strong>: ".$Departamento."</li></ul>";
+					echo "<li class='list-group-item'><strong>Departamento</strong>: ".$Departamento."</li></ul>
+					</div>
+				</div>
+					";
 
 					$stmt->execute();
 					echo "
-							<p><strong>[STMT]</strong> :: <u>El Registro de la Pieza ha sido actualizada con la información más reciente</u></p>
+					<div id= 'successpanel' class= 'panel panel-success'>
+						<div class='panel-heading'>
+							<h3 class='panel-title'><strong>[SUCCESS]</strong> :: Actualizacion Exitosa</h3>
+						</div>
+						<div class='panel-body'>
+							<p><strong>[PRODUCT]</strong> :: <u>La información del producto ha sido actualizada con la información más reciente</u></p>
 						</div>
 					</div>";
 
