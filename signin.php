@@ -28,7 +28,11 @@
 	//delete plain text from memory
 		\Sodium\memzero($userpass);
 
-		echo 1; 
+		$_SESSION['logged'] = true;
+		$_SESSION['user'] = $username; 
+
+		echo 1;
+
 	}
 
 	else{
