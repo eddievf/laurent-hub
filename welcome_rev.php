@@ -1,3 +1,10 @@
+<?php
+session_start();
+
+if(!empty($_SESSION['logged'])){
+
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -66,7 +73,7 @@
                 			<li><a href="#">Embarque</a></li>
               			</ul>
 					</li>
-					<li><a href="#">Help</a></li>
+					<li><a href="logout.php">Salir</a></li>
 				</ul>
 			</div><!--collapse-->
 		</div><!--container fluid-->
@@ -144,48 +151,37 @@
       						</tr>
     					</thead>
     					<tbody>
-    						<?php
-							class TableRows extends RecursiveIteratorIterator{
-								function __construct($it){
-									parent::__construct($it, self::LEAVES_ONLY);
-								}
-	
-								function current(){
-								return "<td>".parent::current()."</td>"; 
-								}
+    						<?php				
 
-								function beginChildren(){
-									echo "<tr>";
-								}
-
-								function endChildern(){
-									echo "</tr>";
-								}
-							}							
-
-							try{
-								
-								$stmt = $conn->prepare("SELECT OrdenTrabajo, OrdenCompra, testorders.Cliente, Partida, Descripcion, Cantidad,
-														FechaSolicitud, Progress, Avance
-														FROM testOrders, testPiezas
-														WHERE (testpiezas.id)=(testorders.pieza)
-														AND Progress <> 'Entregado'
-														AND Progress <> 'Facturado'
-														AND Progress <> 'Finalizado'
-														ORDER BY FechaSolicitud, OrdenTrabajo, Partida");
-								$stmt->execute();
+								try{
+									$stmt = $conn->prepare("SELECT OrdenTrabajo, OrdenCompra, testorders.Cliente, Partida, ProdKey, Descripcion, Cantidad,
+									FechaSolicitud, Avance, Progress
+									FROM testOrders, testPiezas
+									WHERE (testpiezas.id)=(testorders.pieza)
+									AND Progress <> 'Entregado'
+									AND Progress <> 'Facturado'
+									ORDER BY FechaSolicitud, OrdenTrabajo, Partida");
+									$stmt->execute();
 		
-								//echo '<div class = "alert alert-success"> <strong> CONN </strong> :: Conexion Establecida </div>';
-								$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-								foreach(new TableRows (new RecursiveArrayIterator($stmt->fetchAll())) as $k=>$v){
-									echo $v;
-								}
-							}
-							catch (PDOException $e){
-								echo "
-								<div class= 'alert alert-danger'><strong>[OH NO, UN DUEÑAS]</strong> :: ".$e->getMessage()."</div>";
-							}
+									while($row=$stmt->fetch(PDO::FETCH_ASSOC)){
 
+          								echo "<tr>
+          								<td>$row[OrdenTrabajo]</td>
+          								<td>$row[OrdenCompra]</td>
+          								<td>$row[Cliente] </td>
+          								<td>$row[Partida]</td>
+          								<td><u><a href = '/indevtest/fileHandler.php?file=$row[ProdKey]'>$row[Descripcion]</a></u></td>
+          								<td>$row[Cantidad]</td>
+          								<td>$row[FechaSolicitud]</td>
+          								<td>$row[Progress]</td>
+          								<td>$row[Avance]%</td>
+          								</tr>";
+    								}
+								}
+								catch (PDOException $e){
+									echo "
+									<div class= 'alert alert-danger'><strong>[ERROR]</strong> :: ".$e->getMessage()."</div>";
+								}
 						
 							?>
 						</tbody>
@@ -260,3 +256,10 @@
 
 </body>
 </html>
+<?php
+}
+
+else{
+	echo "You are not logged in, twat. Please <a href='http://localhost/indevdep/index.html'>Go Back</a>";
+}
+?>

@@ -1,3 +1,9 @@
+<?php
+session_start();
+
+if(!empty($_SESSION['logged'])){
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -237,7 +243,7 @@
 									$prod->execute();
 
 									while ($lane=$prod->fetch(PDO::FETCH_ASSOC)){
-										echo '<option data-tokens="'.$lane['CodigoProducto'].'" value="'.$lane['ID'].'">'.$lane['Descripcion'].' - '.$lane['Cliente'].'</option>';
+										echo '<option value="'.$lane['ID'].'">'.$lane['Descripcion'].' - '.$lane['Cliente'].'</option>';
 									}
 
 								?>
@@ -257,10 +263,10 @@
 							<p class="lead text-muted"><i>Revision y Liberación de Ordenes de Trabajo</i></p><br>
 						</div>
 						<div class="container">
-							<p>placeholder for Validation form (colors, pretty scheeet huh)</p>
+							<p><i>too schweet</i></p>
 						</div>
 					</div>
-				</div>
+				</div><!-- END OF ORDER VALIDATION-->
 				
 					
 
@@ -273,3 +279,9 @@
 
 </body>
 </html>
+<?php
+}
+
+echo "You are not logged in, twat. Please <a href='http://localhost/indevdep/index.html'>Go Back</a>";
+
+?>
