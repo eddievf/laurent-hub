@@ -9,7 +9,7 @@
 	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	
 
-	$auth = $conn->prepare('SELECT userID,username,userpass
+	$auth = $conn->prepare('SELECT userID,username,userpass, clearsec
 						  	   FROM testusers
 							   WHERE username = :user');
 
@@ -22,6 +22,7 @@
 	while($row=$auth->fetch(PDO::FETCH_ASSOC)){
 		$authuser = $row['username'];
 		$authhash = $row['userpass'];
+		$authsec = $row['clearsec'];
 	}
 
 	if(\Sodium\crypto_pwhash_str_verify($authhash, $userpass)){
@@ -29,7 +30,8 @@
 		\Sodium\memzero($userpass);
 
 		$_SESSION['logged'] = true;
-		$_SESSION['user'] = $username; 
+		$_SESSION['user'] = $username;
+		$_SESSION['clearsec'] = $authsec;
 
 		echo 1;
 

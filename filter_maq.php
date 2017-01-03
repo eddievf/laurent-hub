@@ -1,3 +1,9 @@
+<?php
+session_start();
+
+if(!empty($_SESSION['logged'])){
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,7 +53,7 @@
                 			<li><a href="#">Embarque</a></li>
               			</ul>
 					</li>
-					<li><a href="#">Help</a></li>
+					<li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span> Salir</a></li>
 				</ul>
 			</div><!--collapse-->
 		</div><!--container fluid-->
@@ -279,7 +285,7 @@
 									<div class="checkbox col-md-offset-1">
 										<label>
 											<input type="hidden" name="FechaCompromiso" id="FechaCompromisoHidden" value="0">
-											<input type="checkbox" name="FechaCompromiso" id="FechaCompromiso" value="1">Fecha de Compromiso
+											<input type="checkbox" name="FechaCompromiso" id="FechaCompromiso" value="1">Fecha Programada
 										</label>
 									</div>
 									<div class="checkbox col-md-offset-1">
@@ -484,3 +490,8 @@
 
 </body>
 </html>
+<?php
+}
+else{
+	echo "You're not signed in, twat. Please <a href='http://localhost/indevdep/index-html'>Go Back</a>";
+}

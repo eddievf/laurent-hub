@@ -3,6 +3,8 @@ session_start();
 
 if(!empty($_SESSION['logged'])){
 
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -16,13 +18,12 @@ if(!empty($_SESSION['logged'])){
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css">
 	<link href="css/welcome.css" rel="stylesheet">
 	<link href="css/circle.css" rel="stylesheet">
-
+	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="js/scrollspy.js"></script>
 	<script src="js/getinfo.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.min.js"></script>
-
 	<?php
 	date_default_timezone_set("America/Monterrey");
 	$regdate = "Registro en ".date("Y-m-d");
@@ -73,7 +74,7 @@ if(!empty($_SESSION['logged'])){
                 			<li><a href="#">Embarque</a></li>
               			</ul>
 					</li>
-					<li><a href="#">Help</a></li>
+					<li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span> Salir</a></li>
 				</ul>
 			</div><!--collapse-->
 		</div><!--container fluid-->
@@ -86,7 +87,14 @@ if(!empty($_SESSION['logged'])){
 				<ul class="nav nav-sidebar">
 					<li><a href="#morework">Ordenes Nuevas</a></li>
 					<li><a href="#updatework">Actualización de Ordenes</a></li>
+					<?php
+						if($_SESSION['clearsec'] == 1){
+					?>
 					<li><a href="#lookproduct">Actualización de Piezas</a></li>
+					<li><a href="#validorder">Validación de Ordenes</a></li>
+					<?php
+						}
+					?>
 				</ul>
 			</div>
 			<!--end sidebar-->
@@ -126,7 +134,7 @@ if(!empty($_SESSION['logged'])){
 										<div class="col-sm-6">
 										<select class="form-control selectpicker" data-live-search="true" name="Pieza">
 											<?php		
-												$query = ("SELECT ID, Descripcion from testpiezas ORDER BY ID");
+												$query = ("SELECT ID, Descripcion, Filepath from testpiezas ORDER BY ID");
 												$data = $conn->prepare($query);
 												$data->execute();
 												while($row=$data->fetch(PDO::FETCH_ASSOC)){
@@ -155,7 +163,6 @@ if(!empty($_SESSION['logged'])){
 										<input class="form-control" type="number" placeholder="Ingresar numero Partida de la Pieza" name="Partida" id="Partida" required>
 										</div>
 									</div>
-									
 									<div class="form-group row">
 										<label for="Cantidad" class="col-sm-2 col-form-label">Cantidad</label>
 										<div class="col-sm-6">
@@ -163,9 +170,25 @@ if(!empty($_SESSION['logged'])){
 										</div>
 									</div>
 									<div class="form-group row">
+										<label for="Prioridad" class="col-sm-2 col-form-label">Prioridad</label>
+										<div class="col-sm-3">
+											<select class="form-control selectpicker" data-live-search="true" name="Prioridad">
+												<option data-content="<span class='label label-info'>Normal</span>" value="0"></option>
+												<option data-content="<span class='label label-danger'>Urgente</span>" value="1"></option>
+											</select>
+										</div>
+									</div>
+									<div class="form-group row">
+										<label for="Validate" class="sr-only">Validacion</label>
+										<div class="col-sm-6">
+										<input class="form-control" type="hidden" value="3" name="Validate" id="Validate">
+										</div>
+									</div>
+									<div class="form-group row">
 										<label for="Registry" class="sr-only">Registro</label>
 										<div class="col-sm-6">
 										<input class="form-control" type="hidden" value="<?php echo htmlspecialchars($regdate); ?>" name="Registry" id="Registry">
+										</div>
 									</div>
 									<div class="form-group row">
 										<div class="col-sm-6">
@@ -225,6 +248,10 @@ if(!empty($_SESSION['logged'])){
 					</div>
 				</div><!--END OF UPDATE-->
 
+				<?php
+					if($_SESSION['clearsec'] == 1){
+				?>
+
 				<!--START OF UPDATE PIECES-->
 				<div class="container-fluid" id="lookproduct">
 					<div class="jumbotron jumbotron-fluid">
@@ -263,10 +290,33 @@ if(!empty($_SESSION['logged'])){
 							<p class="lead text-muted"><i>Revision y Liberación de Ordenes de Trabajo</i></p><br>
 						</div>
 						<div class="container">
-							<p><i>too schweet</i></p>
+							<select class="custom-select selectpicker offset-sm-2 col-sm-9" name="validation" data-live-search="true" onchange="showforValid(this.value)">
+							<?php
+
+									$selectvalidate = ("SELECT MIN(testorders.id) AS id, OrdenTrabajo, testorders.Cliente, Descripcion, FechaSolicitud
+														FROM testorders, testpiezas
+														WHERE (testpiezas.ID) = (testorders.Pieza)
+														AND Progress <> 'Entregado'
+														AND Progress <> 'OK'
+														GROUP BY OrdenTrabajo");
+									$val = $conn->prepare($selectvalidate);
+									$val->execute();
+
+									while ($dart=$val->fetch(PDO::FETCH_ASSOC)){
+										echo '<option value="'.$dart['OrdenTrabajo'].'">'.$dart['OrdenTrabajo'].' - '.$dart['Descripcion'].'</option>';
+									}
+
+								?>
+							</select>
 						</div>
+						<br>
+						<div class="container" id="valorHint"><b> Ingresar / Seleccionar de la lista el Folio de Orden de Trabajo.</b></div>
+						<br><br>
 					</div>
 				</div><!-- END OF ORDER VALIDATION-->
+				<?php
+					}
+				?>
 				
 					
 
@@ -281,7 +331,9 @@ if(!empty($_SESSION['logged'])){
 </html>
 <?php
 }
+else{
 
 echo "You are not logged in, twat. Please <a href='http://localhost/indevdep/index.html'>Go Back</a>";
+}
 
 ?>
