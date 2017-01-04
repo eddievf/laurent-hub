@@ -23,6 +23,7 @@ if(!empty($_SESSION['logged'])){
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="js/scrollspy.js"></script>
 	<script src="js/getinfo.js"></script>
+	<script src="js/log.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.min.js"></script>
 	<?php
 	date_default_timezone_set("America/Monterrey");
@@ -95,6 +96,7 @@ if(!empty($_SESSION['logged'])){
 					<?php
 						}
 					?>
+					<li><a href="#closeorder">Cerrar Orden</a></li>
 				</ul>
 			</div>
 			<!--end sidebar-->
@@ -176,12 +178,6 @@ if(!empty($_SESSION['logged'])){
 												<option data-content="<span class='label label-info'>Normal</span>" value="0"></option>
 												<option data-content="<span class='label label-danger'>Urgente</span>" value="1"></option>
 											</select>
-										</div>
-									</div>
-									<div class="form-group row">
-										<label for="Validate" class="sr-only">Validacion</label>
-										<div class="col-sm-6">
-										<input class="form-control" type="hidden" value="3" name="Validate" id="Validate">
 										</div>
 									</div>
 									<div class="form-group row">
@@ -317,6 +313,38 @@ if(!empty($_SESSION['logged'])){
 				<?php
 					}
 				?>
+				<!--START OF CLOSE ORDER (conundrum is it not?)-->
+				<div class="container-fluid" id="closeorder">
+					<div class="jumbotron jumbotron-fluid">
+						<div class="container">
+							<h2 class="display-3">Cerrar Orden de Trabajo</h2>
+							<p class="lead text-muted"><i>Registrar Facturación de Orden de Trabajo</i></p><br>
+						</div>
+						<div class="container">
+							<select class="custom-select selectpicker offset-sm-2 col-sm-9" name="validation" data-live-search="true" onchange="showCloseIt(this.value)">
+							<?php
+
+									$selectclose = ("SELECT MIN(testorders.id) AS id, OrdenTrabajo, testorders.Cliente, Descripcion, FechaSolicitud
+														FROM testorders, testpiezas
+														WHERE (testpiezas.ID) = (testorders.Pieza)
+														AND Progress <> 'Entregado'
+														GROUP BY OrdenTrabajo");
+									$val = $conn->prepare($selectclose);
+									$val->execute();
+
+									while ($dart=$val->fetch(PDO::FETCH_ASSOC)){
+										echo '<option value="'.$dart['OrdenTrabajo'].'">'.$dart['OrdenTrabajo'].' - '.$dart['Descripcion'].'</option>';
+									}
+
+								?>
+							</select>
+						</div>
+						<br>
+						<div class="container" id="cerrarHint"><b> Ingresar / Seleccionar de la lista el Folio de Orden de Trabajo.</b></div>
+						<br><br>
+					</div>
+				</div><!-- END OF CLOSE ORDER (again, conundrum)-->
+				
 				
 					
 
@@ -332,8 +360,50 @@ if(!empty($_SESSION['logged'])){
 <?php
 }
 else{
+	header("refresh: 3; url= http://localhost/indevdep/index.html");
+	echo '
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>oh hi there</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
 
-echo "You are not logged in, twat. Please <a href='http://localhost/indevdep/index.html'>Go Back</a>";
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle Navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Salir</a>
+			</div>
+			
+		</div><!--container fluid-->
+	</nav>
+
+	<div class="jumbotron jumbotron-fluid">
+		<div class="container">
+			<h1><u>404</u></h1>
+			<p>¿Te has perdido?<br>¿Desapareció el sitio que buscabas?<br>A continuación, será redirigido al que querias llegar.</p><br>
+			<p><small>Dar click <u><a href="http://localhost/indevdep/index.html">aquí</a></u> si no se redirige automaticamente.</small></p>
+		</div>
+	</div>
+
+	<div class="container">
+		<p class="text-muted"><small>2017 Prensas y Maquinados SA de CV.<br>Contact webmaster at info@eddievf.com</small></p>
+	</div>
+</body>
+</html>';
 }
 
 ?>
