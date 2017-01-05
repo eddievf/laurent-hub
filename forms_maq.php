@@ -23,7 +23,6 @@ if(!empty($_SESSION['logged'])){
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="js/scrollspy.js"></script>
 	<script src="js/getinfo.js"></script>
-	<script src="js/log.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.min.js"></script>
 	<?php
 	date_default_timezone_set("America/Monterrey");
@@ -91,8 +90,8 @@ if(!empty($_SESSION['logged'])){
 					<?php
 						if($_SESSION['clearsec'] == 1){
 					?>
-					<li><a href="#lookproduct">Actualización de Piezas</a></li>
-					<li><a href="#validorder">Validación de Ordenes</a></li>
+					<li><a href="#lookproduct">Información de Piezas</a></li>
+					<li><a href="#validorder">Revisión de Ordenes</a></li>
 					<?php
 						}
 					?>
@@ -116,7 +115,7 @@ if(!empty($_SESSION['logged'])){
 								</div>
 
 
-								<div class="container">
+								<div class="container" id="SelectForm">
 								<form class="form-horizontal" role="form" method="POST" action="php/createor.php">
 
 									<div class="form-group row">
@@ -134,13 +133,13 @@ if(!empty($_SESSION['logged'])){
 									<div class="form-group row">
 										<label for="Pieza" class="col-sm-2 col-form-label">Pieza</label>
 										<div class="col-sm-6">
-										<select class="form-control selectpicker" data-live-search="true" name="Pieza">
+										<select class="form-control selectpicker" title="Ingresar Pieza" data-live-search="true" id="PiezaSel" name="PiezaSel">
 											<?php		
-												$query = ("SELECT ID, Descripcion, Filepath from testpiezas ORDER BY ID");
+												$query = ("SELECT ID, Descripcion, Cliente, Filepath from testpiezas ORDER BY ID");
 												$data = $conn->prepare($query);
 												$data->execute();
 												while($row=$data->fetch(PDO::FETCH_ASSOC)){
-												echo '<option value="'.$row['ID'].'">'.$row['Descripcion'].'</option>';
+												echo '<option value="'.$row['ID'].'" data-client="'.$row['Cliente'].'">'.$row['Descripcion'].'</option>';
 												}
 												
 											?>
@@ -150,7 +149,7 @@ if(!empty($_SESSION['logged'])){
 									<div class="form-group row">
 										<label for="Cliente" class="col-sm-2 col-form-label">Cliente</label>
 										<div class="col-sm-6">
-										<input class="form-control" type="text" placeholder="Ingresar Nombre de Cliente" name="Cliente" id="Cliente" required>
+										<input class="form-control" type="text" placeholder="Ingresar Nombre de Cliente" name="ClienteSel" id="ClienteSel" required>
 										</div>
 									</div>
 									<div class="form-group row">
@@ -215,14 +214,16 @@ if(!empty($_SESSION['logged'])){
 							<p class="lead text-muted"><i>Actualizar Información de las Ordenes en Proceso</i></p><br>
 						</div>
 						<div class="container">
-							<select class="custom-select selectpicker offset-sm-2 col-sm-8" name="orders" data-live-search="true" onchange="showOrder(this.value)">
+							<select class="custom-select selectpicker offset-sm-2 col-sm-8" title="Seleccione la Orden / Partida en Progreso" name="orders" data-live-search="true" onchange="showOrder(this.value)">
 							  <?php
 
 							      $selectorder = ("SELECT testorders.ID, OrdenTrabajo, Partida, Descripcion, Progress
-							                 FROM testorders, testpiezas
-							                 WHERE (testpiezas.id)=(testorders.pieza)
-							                 AND Progress <> 'Entregado'
-							                 ORDER BY OrdenTrabajo, Partida");
+							      				   FROM testorders, testpiezas
+							      				   WHERE (testpiezas.id)=(testorders.pieza)
+							      				   AND Progress <> 'Entregado'
+							      				   AND Progress NOT LIKE '%ok%'
+							      				   AND Validate = '1'
+							      				   ORDER BY OrdenTrabajo, Partida");
 
 							      $data = $conn->prepare($selectorder);
 							      $data->execute();
@@ -238,7 +239,7 @@ if(!empty($_SESSION['logged'])){
 						</div>
 						<br>
 
-						<div class="container" id="txtHint"><b> Seleccione la Orden / Partida del Menú Superior. </b></div>
+						<div class="container" id="txtHint"></div>
 						<br>
 						<br>
 					</div>
@@ -256,7 +257,7 @@ if(!empty($_SESSION['logged'])){
 							<p class="lead text-muted"><i>Registro y/o actualización de información de productos</i></p><br>
 						</div>
 						<div class="container">
-							<select class="custom-select selectpicker offset-sm-2 col-sm-9" name="products" data-live-search="true" onchange="showProduct(this.value)">
+							<select class="custom-select selectpicker offset-sm-2 col-sm-9" title="Ingresar Descripción de Producto" name="products" data-live-search="true" onchange="showProduct(this.value)">
 								<?php
 
 									$selectprods = ("SELECT ID, Descripcion, Cliente, CodigoProducto, Filepath
@@ -273,7 +274,7 @@ if(!empty($_SESSION['logged'])){
 							</select>
 						</div>
 						<br>
-						<div class="container" id="productHint"><b> Seleccione el Producto del Menú Superior </b></div>
+						<div class="container" id="productHint"></div>
 						<br><br>
 					</div>
 				</div><!--END OF UPDATE PIECES-->
@@ -282,18 +283,17 @@ if(!empty($_SESSION['logged'])){
 				<div class="container-fluid" id="validorder">
 					<div class="jumbotron jumbotron-fluid">
 						<div class="container">
-							<h2 class="display-3">Validacion de Ordenes de Trabajo</h2>
-							<p class="lead text-muted"><i>Revision y Liberación de Ordenes de Trabajo</i></p><br>
+							<h2 class="display-3">Revisión de Ordenes de Trabajo</h2>
+							<p class="lead text-muted"><i>Modificación y liberación de información correspondiente a Ordenes de Trabajo</i></p><br>
 						</div>
 						<div class="container">
-							<select class="custom-select selectpicker offset-sm-2 col-sm-9" name="validation" data-live-search="true" onchange="showforValid(this.value)">
+							<select class="custom-select selectpicker offset-sm-2 col-sm-9" name="validation" title="Ingresar / Seleccionar de la lista el Folio de Orden de Trabajo." data-live-search="true" onchange="showforValid(this.value)">
 							<?php
 
 									$selectvalidate = ("SELECT MIN(testorders.id) AS id, OrdenTrabajo, testorders.Cliente, Descripcion, FechaSolicitud
 														FROM testorders, testpiezas
 														WHERE (testpiezas.ID) = (testorders.Pieza)
-														AND Progress <> 'Entregado'
-														AND Progress <> 'OK'
+														AND Validate <> 1
 														GROUP BY OrdenTrabajo");
 									$val = $conn->prepare($selectvalidate);
 									$val->execute();
@@ -306,7 +306,7 @@ if(!empty($_SESSION['logged'])){
 							</select>
 						</div>
 						<br>
-						<div class="container" id="valorHint"><b> Ingresar / Seleccionar de la lista el Folio de Orden de Trabajo.</b></div>
+						<div class="container" id="valorHint"></div>
 						<br><br>
 					</div>
 				</div><!-- END OF ORDER VALIDATION-->
@@ -321,13 +321,14 @@ if(!empty($_SESSION['logged'])){
 							<p class="lead text-muted"><i>Registrar Facturación de Orden de Trabajo</i></p><br>
 						</div>
 						<div class="container">
-							<select class="custom-select selectpicker offset-sm-2 col-sm-9" name="validation" data-live-search="true" onchange="showCloseIt(this.value)">
+							<select class="custom-select selectpicker offset-sm-2 col-sm-9" title="Seleccionar la Orden del Listado" name="validation" data-live-search="true" onchange="showCloseIt(this.value)">
 							<?php
 
-									$selectclose = ("SELECT MIN(testorders.id) AS id, OrdenTrabajo, testorders.Cliente, Descripcion, FechaSolicitud
+									$selectclose = ("SELECT MIN(testorders.id) AS id, OrdenTrabajo, testorders.Cliente, Descripcion, Progress, FechaReal, Partial
 														FROM testorders, testpiezas
 														WHERE (testpiezas.ID) = (testorders.Pieza)
-														AND Progress <> 'Entregado'
+														AND FechaReal <> 'NULL'
+                                                        AND Partial <> '1'
 														GROUP BY OrdenTrabajo");
 									$val = $conn->prepare($selectclose);
 									$val->execute();
@@ -340,7 +341,7 @@ if(!empty($_SESSION['logged'])){
 							</select>
 						</div>
 						<br>
-						<div class="container" id="cerrarHint"><b> Ingresar / Seleccionar de la lista el Folio de Orden de Trabajo.</b></div>
+						<div class="container" id="cerrarHint"></div>
 						<br><br>
 					</div>
 				</div><!-- END OF CLOSE ORDER (again, conundrum)-->
