@@ -1,3 +1,9 @@
+$(document).ready(function(){
+  $('#SelectForm').on('change', '#PiezaSel' ,function(){
+    $('#ClienteSel').val($(this).find('option:selected').attr('data-client'));
+  });
+});
+
 function showHintWork(str) {
     		if (str.length == 0) { 
         		document.getElementById("txtHint").innerHTML = "";
@@ -174,6 +180,7 @@ function showCloseIt(str){
         xmlhttp.send();
     }
 }
+
 
 
 
