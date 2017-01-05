@@ -84,22 +84,36 @@
 
 				try{
 
-					$conn = new PDO("mysql:host=$servername;dbname=test", $username, $password);
-
-					$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-					$stmt = $conn->prepare("INSERT INTO testOrders (OrdenTrabajo, OrdenCompra, Cliente, FechaSolicitud, Partida, 
-							Pieza, Cantidad, Progress )
-							VALUES (:OrdenTrabajo, :OrdenCompra, :Cliente, :FechaSolicitud, :Partida, :Pieza, :Cantidad, :Progress) ");
-
 					$OrdenTrabajo = $_POST["OrdenTrabajo"];
 					$OrdenCompra = $_POST["OrdenCompra"];
-					$Cliente = $_POST["Cliente"];
+					$Cliente = $_POST["ClienteSel"];
 					$FechaSolicitud = $_POST["FechaSolicitud"];
 					$Partida = $_POST["Partida"];
-					$Pieza = $_POST["Pieza"];
+					$Pieza = $_POST["PiezaSel"];
 					$Cantidad = $_POST["Cantidad"];
 					$Registry = $_POST["Registry"];
+					$Prioridad = $_POST["Prioridad"];
+
+					$val = $conn->prepare("SELECT ID, Filepath FROM testpiezas WHERE ID = :ID");
+
+					$val->bindParam(':ID', $Pieza);
+
+					$val->execute();
+
+					while($row = $val->fetch(PDO::FETCH_ASSOC)){
+						$Dibujo = $row['Filepath'];
+					}
+
+					if(!empty($Dibujo)){
+						$Validate = 2;
+					}
+					else{
+						$Validate = 3;
+					}
+
+					$stmt = $conn->prepare("INSERT INTO testOrders (OrdenTrabajo, OrdenCompra, Cliente, FechaSolicitud, Partida, 
+							Pieza, Cantidad, Progress, Prioridad, Validate )
+							VALUES (:OrdenTrabajo, :OrdenCompra, :Cliente, :FechaSolicitud, :Partida, :Pieza, :Cantidad, :Progress, :Prioridad, :Validate) ");
 
 				?>
 				<div class="panel panel-default" id="success">
@@ -113,11 +127,11 @@
 					echo "<li class='list-group-item'><strong>Orden Trabajo</strong>: ".$OrdenTrabajo."</li>";
 					echo "<li class='list-group-item'><strong>Orden Compra</strong>: ".$OrdenCompra."</li>";
 					echo "<li class='list-group-item'><strong>Cliente</strong>: ".$Cliente."</li>";
-					echo "<li class='list-group-item'><strong>Fecha Solicitud</strong> ".$FechaSolicitud."</li>";
-					echo "<li class='list-group-item'><strong>Partida</strong> ".$Partida."</li>";
-					echo "<li class='list-group-item'><strong>Pieza</strong>  ".$Pieza."</li>";
-					echo "<li class='list-group-item'><strong>Cantidad</strong> ".$Cantidad."</li>";
-					echo "<li class='list-group-item'><strong>Registry</strong> ".$Registry."</li></ul>";
+					echo "<li class='list-group-item'><strong>Fecha Solicitud</strong>: ".$FechaSolicitud."</li>";
+					echo "<li class='list-group-item'><strong>Partida</strong>: ".$Partida."</li>";
+					echo "<li class='list-group-item'><strong>Pieza</strong>:  ".$Pieza."</li>";
+					echo "<li class='list-group-item'><strong>Cantidad</strong>: ".$Cantidad."</li>";
+					echo "<li class='list-group-item'><strong>Registry</strong>: ".$Registry."</li></ul>";
 
 					$stmt->bindParam(':OrdenTrabajo',$OrdenTrabajo);
 					$stmt->bindParam(':OrdenCompra', $OrdenCompra);
@@ -127,6 +141,8 @@
 					$stmt->bindParam(':Pieza', $Pieza);
 					$stmt->bindParam(':Cantidad', $Cantidad);
 					$stmt->bindParam(':Progress', $Registry);
+					$stmt->bindParam(':Prioridad', $Prioridad);
+					$stmt->bindParam(':Validate', $Validate);
 					$stmt->execute();
 					echo "
 					<div id= 'successpanel' class= 'panel panel-success'>

@@ -15,6 +15,7 @@
 <?php
 $turret = intval($_GET['turret']);
 $table_string = "";
+$partcount = 0;
 
 
 $servername = "localhost";
@@ -26,7 +27,7 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
 //$sql="SELECT * FROM testorders WHERE id = '".$turret."'";
-$query = ("SELECT testorders.ID, OrdenTrabajo, OrdenCompra, testorders.Cliente, Descripcion, FechaSolicitud, Prioridad, ProdKey, Filepath, Partida, Validate
+$query = ("SELECT testorders.ID, OrdenTrabajo, OrdenCompra, testorders.Cliente, CantPending, Descripcion, FechaSolicitud, Prioridad, ProdKey, Filepath, Partida, Validate
           FROM testorders, testpiezas
           WHERE (testpiezas.ID) = (testorders.Pieza)
           AND OrdenTrabajo = :order
@@ -45,6 +46,7 @@ while($row=$data->fetch(PDO::FETCH_ASSOC)) {
     $OrdenTrabajo = $row['OrdenTrabajo'];
     $OrdenCompra = $row['OrdenCompra'];
     $Cliente = $row['Cliente'];
+    $Cantidad = $row['CantPending'];
     $Descripcion = $row['Descripcion'];
     $FechaSolicitud = $row['FechaSolicitud'];
     $Prioridad = $row['Prioridad'];
@@ -52,48 +54,43 @@ while($row=$data->fetch(PDO::FETCH_ASSOC)) {
     $Filepath = $row['Filepath'];
     $Partida = $row['Partida'];
     $Validate = $row['Validate'];
+    $partcount = $partcount + 1;
 
-    $table_string .= "<tr><td>$row[FechaSolicitud]</td>
-                      <td>$row[Descripcion]</td>
-                      <td>$row[Partida]
+    $table_string .= "<div class = 'nottable row'><div class = 'col-md-2'>$row[OrdenCompra]</div>
+                      <div class = 'col-md-4'>$row[Descripcion]</div>
+                      <div style='text-align: center;' class = 'col-md-2'>$row[CantPending]</div>
+                      <div class = 'col-md-2'>
+                        <input class='form-control' type='number' name='RealCant".$ID."' id='RealCant".$ID."' ";
+
+                       if($row['CantPending']==0){
+                        $table_string .= "disabled>";
+                       }
+                       else{
+                        $table_string .= "required>";
+                       }
+
+    $table_string .= "
+                      </div>
+                      <div class = 'col-md-2'>
+                        <input class='form-control' type='number' name='Factura".$ID."' id='Factura".$ID."' ";
+
+                        if($row['CantPending']==0){
+                        $table_string .= "disabled>";
+                       }
+                       else{
+                        $table_string .= "required>";
+                       }
+                      
+    $table_string .= "</div>
+                      <input class='form-control' type='hidden' name='PiezaID".$ID."' id='PiezaID".$ID."' value = ".$ID.">
+                      </div>
                         ";
-    if($Filepath == NULL){
-            $table_string .= "<td><span class = 'label label-danger'><u>Aún no hay dibujo para $row[Descripcion]</u></span></td>";
-        }
-        else{
-            $table_string .= "<td><span class = 'label'><u><a href = '/indevtest/fileHandler.php?file=$row[ProdKey]'>$row[Descripcion]</a></span></u></td>";
-        }
-
-    switch ($Prioridad) {
-        case 0:
-            $table_string .= "<td><span class = 'label label-info'>Normal</span></td>";
-            break;
-        
-        case 1:
-            $table_string .= "<td><span class = 'label label-danger'>Urgente</span></td>";
-            break;
-    }
-
-    switch ($Validate) {
-        case 1:
-            $table_string .= "<td><span class = 'label label-success'><span class = 'glyphicon glyphicon-ok-sign'></span> Liberado</span></td></tr>";
-            break;
-
-        case 2:
-            $table_string .= "<td><span class = 'label label-warning'><span class = 'glyphicon glyphicon-minus-sign'></span> Revision</span></td></tr>";
-            break;
-
-        case 3:
-            $table_string .= "<td><span class = 'label label-danger'><span class = 'glyphicon glyphicon-remove-sign'></span> Pendiente</span></td></tr>";
-            break;
-
-    }
                     
 }
 
 echo "
 <div class = 'container'>
-    <form class = 'form-horizontal' role = 'form' method = 'POST' action = 'php/validateorder.php' id='valanorder' enctype= 'multipart/form-data'>
+    <form class = 'form-horizontal' role = 'form' method = 'POST' action = 'php/bagtagit.php' id='closingorder' enctype= 'multipart/form-data'>
 
     <div class = 'form-group row'>
         <label for = 'ID' class = 'sr-only'>ID</label>
@@ -116,13 +113,13 @@ echo "
     <div class = 'form-group row'>
         <label for = 'OrdenTrabajo' class='col-sm-2 col-form-label'>Orden de Trabajo</label>
         <div class = 'col-sm-4'>
-        <input class ='form-control' type='number' value='".$OrdenTrabajo."' name = 'OrdenTrabajo' id='OrdenTrabajo'>
+        <input class ='form-control' type='number' value='".$OrdenTrabajo."' name = 'OrdenTrabajo' id='OrdenTrabajo' readonly>
         </div>
     </div>
     <div class = 'form-group row'>
-        <label for = 'OrdenCompra' class = 'col-sm-2 col-form-label'>Orden de Compra</label>
+        <label for = 'Cliente' class = 'col-sm-2 col-form-label'>Cliente</label>
         <div class = 'col-sm-5'>
-        <input class = 'form-control' type='number' value='".$OrdenCompra."' name = 'OrdenCompra' id = 'OrdenCompra'>
+        <input class = 'form-control' type='text' value='".$Cliente."' name = 'Cliente' id = 'Cliente' readonly>
         </div>
     </div>
     <div class = 'form-group row'>
@@ -143,30 +140,28 @@ echo "
         </div>
     </div>
 
-    <div class='table-responsive'>
-        <table class='table table-striped table-hover table-bordered'>
-            <thead>
-                <tr>
-                    <th class = 'col-md-2'>Solicitud</th>
-                    <th class = 'col-md-5'>Pieza</th>
-                    <th class = 'col-md-0'>Partida</th>
-                    <th class = 'col-md-3'>Dibujo Actual</th>
-                    <th class = 'col-md-0'>Prioridad</th>
-                    <th class = 'col-md-0'>Liberación</th>
-                </tr>
-            </thead>
-            <tbody>";
+
+    <div class='container-fluid'>
+        <div class='nottabletop row'>
+            <div class='col-md-2'><strong>Orden de Compra</strong></div>
+            <div class='col-md-4'><strong>Descripcion</strong></div>
+            <div style='text-align: center;' class='col-md-2'><strong>Cantidad Pendiente</strong></div>
+            <div class='col-md-2'><strong>Cantidad<br>Real</strong></div>
+            <div class='col-md-2'><strong>Factura</strong></div>
+        </div>";
                 echo $table_string;   
             echo "
-            </tbody>
-        </table>
+
     </div>
-   
+
+   <br>
     <div class = 'form-group row'>
         <div class = 'offset-sm-2 col-sm-6'>
         <button type = 'submit' class = 'btn btn-primary'>Actualizar</button>
         </div>
     </div>
+
+
     
     </form>
 </div>
