@@ -394,16 +394,6 @@ if(!empty($_SESSION['logged'])){
 										</div>
 									</div>
 									<div class="form-group row">
-										<label for="WhereProgIs" class="col-sm-6 col-form-label">
-											<input type="hidden" name="WhereProg2" id="WhereProg2Hidden" value="0">
-											<input type="checkbox" name="WhereProg2" id="WhereProg2" value="1"> Proceso Actual  ==
-										</label>
-										<div class="col-sm-6">
-											<input class="form-control" type="text" placeholder="Proceso es..." name="WhereProg2Is" id="WhereProg2Is">
-										</div>
-									</div>
-
-									<div class="form-group row">
 										<label for="WhereProgIsNot" class="col-sm-6 col-form-label">
 											<input type="hidden" name="WhereNotProg" id="WhereNotProgHidden" value="0">
 											<input type="checkbox" name="WhereNotProg" id="WhereNotProg" value="1"> Proceso Actual  =/=
