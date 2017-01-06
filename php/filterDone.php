@@ -1,4 +1,7 @@
 <?php
+session_start();
+if(!empty($_SESSION['logged'])){
+
 	$currentMonth = date('F');
 	$lastmonth= Date('F', strtotime($currentMonth . " last month"));
 	
@@ -90,5 +93,9 @@
 	$html = ob_get_contents();
 
 	echo "<input type='hidden' name='object' value='".$html."' />";
+}
+else{
+	header("location: ../notfound.php");
+}
 
 ?>

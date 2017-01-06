@@ -1,4 +1,8 @@
 <?php
+session_start();
+if(!empty($_SESSION['logged'])){
+
+
 	echo '
   	<form action="php/pdfStopped.php" target="_blank" method="POST" id="pdfRequestStopped">
 			<button type="submit" class="btn btn-primary" name="ReqPDF" id="ReqPDF">
@@ -89,5 +93,9 @@
 	$html = ob_get_contents();
 
 	echo "<input type='hidden' name='object' value='".$html."' />";
+}
+else{
+	header("location: ../notfound.php");
+}
 
 ?>

@@ -1,4 +1,8 @@
 <?php
+session_start();
+if(!empty($_SESSION['logged']))
+{
+
 	#SELECTS
 	$OrdenTrabajo = $_POST["OrdenTrabajo"];
 	$OrdenCompra = $_POST["OrdenCompra"];
@@ -7,6 +11,7 @@
 	$Partida = $_POST["Partida"];
 	$Pieza = $_POST["Pieza"];
 	$Cantidad = $_POST["Cantidad"];
+	$CantPending = $_POST["CantPending"];
 	$Progress = $_POST["Progress"];
 	$Avance = $_POST["Avance"];
 	$FechaCompromiso = $_POST["FechaCompromiso"];
@@ -18,7 +23,9 @@
 	$WhereMuns = $_POST["WhereMuns"];
 	$WhereClient = $_POST["WhereClient"];
 	$WhereProg = $_POST["WhereProg"];
+	$WhereProg2 = $_POST["WhereProg2"];
 	$WhereNotProg = $_POST["WhereNotProg"];
+	$WhereNotProg2 = $_POST["WhereNotProg2"];
 
 	#DATES
 	$BetweenReqDate = $_POST["BetweenReqDate"];
@@ -61,6 +68,10 @@
 	if($Cantidad == 1){
 		$QuerySelect[] = "Cantidad";
 	}
+
+	if($CantPending == 1){
+		$QuerySelect[] = "CantPending";
+ 	}
 
 	if($FechaSolicitud == 1){
 		$QuerySelect[] = "FechaSolicitud";
@@ -133,6 +144,13 @@
 		$WhereProgIs = $_POST["WhereProgIs"];
 		$query_string .= "AND Progress LIKE '%".$WhereProgIs."%'  ";
 	}
+	if($WhereProg2 == 0){
+		$query_string .= "";
+	}
+	else{
+		$WhereProg2Is = $_POST["WhereProgIs"];
+		$query_string .= "AND Progress LIKE '%".$WhereProg2Is."%'  ";
+	}
 
 	if($WhereNotProg == 0){
 		$query_string .= "";
@@ -140,6 +158,13 @@
 	else{
 		$WhereProgIsNot = $_POST["WhereProgIsNot"];
 		$query_string .= "AND Progress NOT LIKE '%".$WhereProgIsNot."%'  ";
+	}
+	if($WhereNotProg2 == 0){
+		$query_string .= "";
+	}
+	else{
+		$WhereProg2IsNot = $_POST["WhereProg2IsNot"];
+		$query_string .= "AND Progress NOT LIKE '%".$WhereProg2IsNot."%'  ";
 	}
 
 	//END WHERE IFS
@@ -270,6 +295,9 @@
         			if ($Cantidad == 1){
         				echo '<th class = "col-md-1">Cant.</th>';
         			}
+        			if ($CantPending == 1){
+        				echo '<th class = "col-md-1">Cant. Pendiente</th>';
+        			}
         			if ($FechaSolicitud == 1){
         				echo '<th class = "col-md-1">Fecha Solicitud</th>';
         			}
@@ -344,6 +372,12 @@
   $html = ob_get_contents();
 
   echo "<input type='hidden' name='object' value='".$html."'/>";
+
+
+}
+else{
+	header("location: ../notfound.php");
+}
 
 	
 ?>

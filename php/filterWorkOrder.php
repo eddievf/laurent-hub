@@ -1,4 +1,8 @@
 <?php
+session_start();
+if(!empty($_SESSION['logged'])){
+
+
 	$WorkOrderNumber = $_POST["WorkOrderNumber"];
 
 	echo '
@@ -90,6 +94,10 @@
 	$html = ob_get_contents();
 
 	echo "<input type='hidden' name='object' value='".$html."' />";
+}
+else{
+	header("location: ../notfound.php");
+}
 
 ?>
 
