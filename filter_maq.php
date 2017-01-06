@@ -266,6 +266,12 @@ if(!empty($_SESSION['logged'])){
 									</div>
 									<div class="checkbox col-md-offset-1">
 										<label>
+											<input type="hidden" name="CantPending" id="CantPendingHidden" value="0">
+											<input type="checkbox" name="CantPending" id="CantPending" value="1">Cantidad Pendiente
+										</label>
+									</div>
+									<div class="checkbox col-md-offset-1">
+										<label>
 											<input type="hidden" name="FechaSolicitud" id="FechaSolicitudHidden" value="0">
 											<input type="checkbox" name="FechaSolicitud" id="FechaSolicitud" value="1">Fecha de Solicitud
 										</label>
@@ -387,6 +393,15 @@ if(!empty($_SESSION['logged'])){
 											<input class="form-control" type="text" placeholder="Proceso es..." name="WhereProgIs" id="WhereProgIs">
 										</div>
 									</div>
+									<div class="form-group row">
+										<label for="WhereProgIs" class="col-sm-6 col-form-label">
+											<input type="hidden" name="WhereProg2" id="WhereProg2Hidden" value="0">
+											<input type="checkbox" name="WhereProg2" id="WhereProg2" value="1"> Proceso Actual  ==
+										</label>
+										<div class="col-sm-6">
+											<input class="form-control" type="text" placeholder="Proceso es..." name="WhereProg2Is" id="WhereProg2Is">
+										</div>
+									</div>
 
 									<div class="form-group row">
 										<label for="WhereProgIsNot" class="col-sm-6 col-form-label">
@@ -395,6 +410,16 @@ if(!empty($_SESSION['logged'])){
 										</label>
 										<div class="col-sm-6">
 											<input class="form-control" type="text" placeholder="Proceso NO es..." name="WhereProgIsNot" id="WhereProgIsNot">
+										</div>
+									</div>
+
+									<div class="form-group row">
+										<label for="WhereProgIsNot" class="col-sm-6 col-form-label">
+											<input type="hidden" name="WhereNotProg2" id="WhereNotProg2Hidden" value="0">
+											<input type="checkbox" name="WhereNotProg2" id="WhereNotProg2" value="1"> Proceso Actual  =/=
+										</label>
+										<div class="col-sm-6">
+											<input class="form-control" type="text" placeholder="Proceso NO es..." name="WhereProg2IsNot" id="WhereProgIsNot">
 										</div>
 									</div>
 
@@ -493,49 +518,6 @@ if(!empty($_SESSION['logged'])){
 <?php
 }
 else{
-	header("refresh: 3; url= http://localhost/indevdep/index.html");
-	echo '
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>oh hi there</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</head>
-<body>
-
-	<nav class="navbar navbar-inverse navbar-fixed-top">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-					<span class="sr-only">Toggle Navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="#">Salir</a>
-			</div>
-			
-		</div><!--container fluid-->
-	</nav>
-
-	<div class="jumbotron jumbotron-fluid">
-		<div class="container">
-			<h1><u>404</u></h1>
-			<p>¿Te has perdido?<br>¿Desapareció el sitio que buscabas?<br>A continuación, será redirigido al que querias llegar.</p><br>
-			<p><small>Dar click <u><a href="http://localhost/indevdep/index.html">aquí</a></u> si no se redirige automaticamente.</small></p>
-		</div>
-	</div>
-
-	<div class="container">
-		<p class="text-muted"><small>2017 Prensas y Maquinados SA de CV.<br>Contact webmaster at info@eddievf.com</small></p>
-	</div>
-</body>
-</html>';
+	header("location: notfound.php");
 }
 ?>
