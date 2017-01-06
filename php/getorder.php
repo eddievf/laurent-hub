@@ -1,3 +1,9 @@
+<?php
+    session_start();
+    if(!empty($_SESSION['logged'])){
+
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -132,3 +138,9 @@ $conn = NULL;
 ?>
 </body>
 </html>
+<?php
+    }
+    else{
+    header("location: ../notfound.php");
+}
+?>

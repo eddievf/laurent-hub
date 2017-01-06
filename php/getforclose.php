@@ -177,6 +177,6 @@ echo "
 <?php
 }
 else{
-    echo "not logged in";
+    header("location: ../notfound.php");
 }
 ?>

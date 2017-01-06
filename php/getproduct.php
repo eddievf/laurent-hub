@@ -1,3 +1,8 @@
+<?php
+    session_start();
+    if(!empty($_SESSION['logged'])){
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,7 +46,7 @@ while($row=$data->fetch(PDO::FETCH_ASSOC)) {
 
 echo "
 <div class = 'container'>
-    <form class = 'form-horizontal' role = 'form' method = 'POST' action = 'produpdateor.php' enctype= 'multipart/form-data'>
+    <form class = 'form-horizontal' role = 'form' method = 'POST' action = 'php/produpdateor.php' enctype= 'multipart/form-data'>
 
     <div class = 'form-group row'>
         <label for = 'ProdKey' class = 'sr-only'>Product Key</label>
@@ -119,3 +124,9 @@ echo "
 ?>
 </body>
 </html>
+<?php
+}
+    else{
+    header("location: ../notfound.php");
+}
+?>
