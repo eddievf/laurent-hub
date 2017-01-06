@@ -23,7 +23,6 @@ if(!empty($_SESSION['logged']))
 	$WhereMuns = $_POST["WhereMuns"];
 	$WhereClient = $_POST["WhereClient"];
 	$WhereProg = $_POST["WhereProg"];
-	$WhereProg2 = $_POST["WhereProg2"];
 	$WhereNotProg = $_POST["WhereNotProg"];
 	$WhereNotProg2 = $_POST["WhereNotProg2"];
 
@@ -143,13 +142,6 @@ if(!empty($_SESSION['logged']))
 	else{
 		$WhereProgIs = $_POST["WhereProgIs"];
 		$query_string .= "AND Progress LIKE '%".$WhereProgIs."%'  ";
-	}
-	if($WhereProg2 == 0){
-		$query_string .= "";
-	}
-	else{
-		$WhereProg2Is = $_POST["WhereProgIs"];
-		$query_string .= "AND Progress LIKE '%".$WhereProg2Is."%'  ";
 	}
 
 	if($WhereNotProg == 0){

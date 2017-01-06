@@ -27,10 +27,11 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
 //$sql="SELECT * FROM testorders WHERE id = '".$turret."'";
-$query = ("SELECT testorders.ID, OrdenTrabajo, OrdenCompra, testorders.Cliente, CantPending, Descripcion, FechaSolicitud, Prioridad, ProdKey, Filepath, Partida, Validate
+$query = ("SELECT testorders.ID, OrdenTrabajo, OrdenCompra, testorders.Cliente, CantPending, Descripcion, FechaSolicitud, Prioridad, ProdKey, Filepath, Partida, Factura, Validate
           FROM testorders, testpiezas
           WHERE (testpiezas.ID) = (testorders.Pieza)
-          AND OrdenTrabajo = :order
+          AND OrdenCompra = :order
+
           ORDER BY Partida");
 
 $data = $conn->prepare($query);
@@ -53,11 +54,26 @@ while($row=$data->fetch(PDO::FETCH_ASSOC)) {
     $ProdKey = $row['ProdKey'];
     $Filepath = $row['Filepath'];
     $Partida = $row['Partida'];
+    $Factura = $row['Factura'];
     $Validate = $row['Validate'];
     $partcount = $partcount + 1;
 
     $table_string .= "<div class = 'nottable row'><div class = 'col-md-2'>$row[OrdenCompra]</div>
-                      <div class = 'col-md-4'>$row[Descripcion]</div>
+                      <div class = 'col-md-4'>";
+
+                      if(!empty($Factura)){
+                        if($Cantidad == 0){
+                            $table_string .= "<span class = 'label label-success'>Done</span> ";
+                        }
+
+                        else{
+                            $table_string .= "<span class='label label-warning'>Parcial</span> "; 
+                        }
+                        
+                      }
+                       
+
+    $table_string .= "$row[Descripcion]</div>
                       <div style='text-align: center;' class = 'col-md-2'>$row[CantPending]</div>
                       <div class = 'col-md-2'>
                         <input class='form-control' type='number' name='RealCant".$ID."' id='RealCant".$ID."' ";
@@ -82,7 +98,7 @@ while($row=$data->fetch(PDO::FETCH_ASSOC)) {
                        }
                       
     $table_string .= "</div>
-                      <input class='form-control' type='hidden' name='PiezaID".$ID."' id='PiezaID".$ID."' value = ".$ID.">
+                      <input class='form-control' type='hidden' name='OrdenID".$ID."' id='OrdenID".$ID."' value = ".$ID.">
                       </div>
                         ";
                     
@@ -93,9 +109,9 @@ echo "
     <form class = 'form-horizontal' role = 'form' method = 'POST' action = 'php/bagtagit.php' id='closingorder' enctype= 'multipart/form-data'>
 
     <div class = 'form-group row'>
-        <label for = 'ID' class = 'sr-only'>ID</label>
+        <label for = 'OrdenCompra' class = 'sr-only'>IDCompra</label>
         <div class = 'col-sm-7'>
-        <input class = 'form-control' type = 'hidden' value = '".$OrdenTrabajo."' name = 'OrdenFolio' id = 'OrdenFolio'>
+        <input class = 'form-control' type = 'hidden' value = '".$OrdenCompra."' name = 'OrdenCompra' id = 'OrdenCompra'>
         </div>
     </div>
     <div class = 'form-group row'>
@@ -122,23 +138,7 @@ echo "
         <input class = 'form-control' type='text' value='".$Cliente."' name = 'Cliente' id = 'Cliente' readonly>
         </div>
     </div>
-    <div class = 'form-group row'>
-        <label for = 'ValidState' class = 'col-sm-2 col-form-label'>Estado de Orden</label>
-        <div class = 'col-sm-5'>
-                <label class='radio-inline'>
-                    <input type='radio' name='Validate' id='ValidFree' value=1>
-                    <span class = 'label label-success'><span class = 'glyphicon glyphicon-ok-sign'></span> Liberado</span>
-                </label>
-                <label class='radio-inline'>
-                    <input type='radio' name='Validate' id='ValidRev' value=2 checked>
-                    <span class = 'label label-warning'><span class = 'glyphicon glyphicon-minus-sign'></span> Revision</span>
-                </label>
-                <label class='radio-inline'>
-                    <input type='radio' name='Validate' id='ValidError' value=3>
-                    <span class = 'label label-danger'><span class = 'glyphicon glyphicon-remove-sign'></span> Pendiente</span>
-                </label>
-        </div>
-    </div>
+
 
 
     <div class='container-fluid'>
