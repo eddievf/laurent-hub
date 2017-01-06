@@ -1,4 +1,8 @@
 <?php
+	session_start();
+	if (!empty($_SESSION['logged'])){
+
+
 	
 	//composer autoload (mpdf)
 	require_once __DIR__ . '/lib/mpdf/vendor/autoload.php';
@@ -19,6 +23,7 @@
 
 	date_default_timezone_set("America/Monterrey");
 	$echofun = date("d-m-Y | H:i:s");
+	$atwhat = date("dmy");
 	$htmlobject = $_POST['object'];
 	ob_start();
 	
@@ -71,5 +76,10 @@
 	$mpdf->WriteHTML($table);
 	#optional protection -># $mpdf->setProtection(array());
 
-	$mpdf->Output();
+	$mpdf->Output('Cliente_'.$atwhat.'.pdf', 'I');
+
+}
+else{
+	header("location: ../notfound.php");
+}
 ?>

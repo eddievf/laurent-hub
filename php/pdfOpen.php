@@ -1,4 +1,7 @@
 <?php
+session_start();
+if(!empty($_SESSION['logged']))
+{
 	
 	//composer autoload (mpdf)
 	require_once __DIR__ . '/lib/mpdf/vendor/autoload.php';
@@ -72,5 +75,9 @@
 	#optional protection -># $mpdf->setProtection(array());
 
 	$mpdf->Output();
+}
+else{
+	header("location: ../notfound.php");
+}
 ?>
 
