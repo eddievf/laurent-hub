@@ -1,9 +1,12 @@
 <?php
 	session_start();
+	error_reporting(0);
 
 	$servername = "localhost";
 	$dbuser = "root";
 	$dbpass = "";
+
+	$salt = '$argon2i$v=19$m=32768,t=4,p=1';
 
 	$conn = new PDO("mysql:host=$servername;dbname=test", $dbuser, $dbpass);
 	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -14,6 +17,7 @@
 							   WHERE username = :user');
 
 	$username = $_POST['login_username'];
+	$username = strtolower($username);
 	$userpass = $_POST['login_password'];
 
 	$auth->bindParam(':user', $username);
@@ -25,7 +29,10 @@
 		$authsec = $row['clearsec'];
 	}
 
-	if(\Sodium\crypto_pwhash_str_verify($authhash, $userpass)){
+	$username = strtolower($username);
+	$hash_str = $salt.$authhash;
+
+	if(\Sodium\crypto_pwhash_str_verify($hash_str, $userpass)){
 	//delete plain text from memory
 		\Sodium\memzero($userpass);
 

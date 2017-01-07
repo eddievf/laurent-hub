@@ -222,6 +222,7 @@ if(!empty($_SESSION['logged'])){
 							      				   WHERE (testpiezas.id)=(testorders.pieza)
 							      				   AND Progress <> 'Entregado'
 							      				   AND Progress NOT LIKE '%ok%'
+							      				   AND Partial <> '1'
 							      				   AND Validate = '1'
 							      				   ORDER BY OrdenTrabajo, Partida");
 
@@ -318,13 +319,13 @@ if(!empty($_SESSION['logged'])){
 					<div class="jumbotron jumbotron-fluid">
 						<div class="container">
 							<h2 class="display-3">Cerrar Orden de Trabajo</h2>
-							<p class="lead text-muted"><i>Registrar Facturación de Orden de Trabajo</i></p><br>
+							<p class="lead text-muted"><i>Registrar la Facturación de Ordenes de Compra</i></p><br>
 						</div>
 						<div class="container">
 							<select class="custom-select selectpicker offset-sm-2 col-sm-9" title="Seleccionar la Orden del Listado" name="validation" data-live-search="true" onchange="showCloseIt(this.value)">
 							<?php
 
-									$selectclose = ("SELECT MIN(testorders.id) AS id, OrdenTrabajo, testorders.Cliente, Descripcion, Progress, FechaReal, Partial
+									$selectclose = ("SELECT MIN(testorders.id) AS id, OrdenTrabajo, OrdenCompra, testorders.Cliente, Descripcion, Progress, FechaReal, Partial
 														FROM testorders, testpiezas
 														WHERE (testpiezas.ID) = (testorders.Pieza)
 														AND FechaReal <> 'NULL'
@@ -334,7 +335,7 @@ if(!empty($_SESSION['logged'])){
 									$val->execute();
 
 									while ($dart=$val->fetch(PDO::FETCH_ASSOC)){
-										echo '<option value="'.$dart['OrdenTrabajo'].'">'.$dart['OrdenTrabajo'].' - '.$dart['Descripcion'].'</option>';
+										echo '<option value="'.$dart['OrdenCompra'].'">'.$dart['OrdenTrabajo'].' - '.$dart['Descripcion'].'</option>';
 									}
 
 								?>
