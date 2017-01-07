@@ -90,13 +90,24 @@ if(!empty($_SESSION['logged'])){
 				/*GettingVariables*/
 					$OrdenCompra = $_POST['OrdenCompra'];
 					$UserValid = $_POST['UserValid'];
+
+					echo "<br>".$UserValid."<br>";
 					$DateTime = $_POST['DateTime'];
 					$OrdenTrabajo = $_POST['OrdenTrabajo'];
 					$Cliente = $_POST['Cliente'];
 
-					$val = $conn->prepare("SELECT ID, OrdenTrabajo, Partida, Cantidad, CantPending, Pieza, Factura
+					$val = $conn->prepare("SELECT ID, OrdenTrabajo, Partida, Cantidad, CantPending, Pieza, Factura, Progress, Avance
 										   FROM testorders
 										   WHERE OrdenTrabajo = :order");
+
+					$stmt = $conn->prepare("UPDATE testorders
+											SET CantPending = :cantpending , Factura = :factura, Partial = :partial, Progress = :progress
+											WHERE ID = :OrdenID");
+
+					$log = $conn->prepare(" INSERT INTO testlog (WorkOrder, WorkDiv, PrevProgress, NewProgress, PrevAvance, 
+											NewAvance,ValidUntil )
+											VALUES (:OrdenTrabajo, :Partida, :PrevProgress, :NewProgress, :PrevAvance,
+											:NewAvance, :ValidUntil) ");
 
 					$val->bindParam(':order', $OrdenTrabajo);
 					$val->execute();
@@ -109,7 +120,10 @@ if(!empty($_SESSION['logged'])){
 						$CantidadTotal[$part] = $row['Cantidad'];
 						$CantidadPendiente[$part] = $row['CantPending'];
 						$Pieza[$part] = $row['Pieza'];
-						$Factura[$part] = $row['Factura'];
+						$LoggedFactura[$part] = $row['Factura'];
+						$FactString[$part] = ''.$LoggedFactura[$part];
+						$Progress[$part] = $row['Progress'];
+						$PrevAvance[$part] = $row['Avance'];
 					}
 
 					for ($i=1; $i <= $part ; $i++) { 
@@ -120,7 +134,7 @@ if(!empty($_SESSION['logged'])){
 							<br>CantidadTotal(".$i.") = ".$CantidadTotal[$i]."
 							<br>CantidadPendiente(".$i.") = ".$CantidadPendiente[$i]."
 							<br>Pieza(".$i.") = ".$Pieza[$i]."
-							<br>Factura(".$i.") = ".$Factura[$i]."
+							<br>Factura(".$i.") = ".$LoggedFactura[$i]."
 							<br>End<br>";
 
 						if($CantidadPendiente[$i] != 0 ){
@@ -140,23 +154,64 @@ if(!empty($_SESSION['logged'])){
 							<br><br> END VARS <br>
 
 							";
+
+							$cantResult[$i] = $CantidadPendiente[$i] - $RealCant[$i];
+
+							if($cantResult[$i] == $CantidadPendiente[$i]){
+								exit("Error");
+							}
+
+							if($cantResult[$i] < 0){
+								echo "Something Happened";
+								exit();
+
+							}
+							else{
+								if($cantResult[$i] == 0){
+									$NewProgress[$i] = "Facturacion - ".$Factura[$i].". (Final)";
+									$PartialState[$i] = 1;
+
+								}
+								else{
+									$NewProgress[$i] = "Facturacion - ".$Factura[$i].". (Parcial)";
+									$PartialState[$i] = 0;
+								}
+
+								if($LoggedFactura[$i] == 0){
+									$FactString[$i] = $Factura[$i];
+								}
+								else{
+									$FactString[$i] .= ", ".$Factura[$i];
+								}
+								$stmt->bindParam(':cantpending', $cantResult[$i]);
+								$stmt->bindParam(':factura', $FactString[$i]);
+								$stmt->bindParam(':partial', $PartialState[$i]);
+								$stmt->bindParam(':progress', $NewProgress[$i]);
+								$stmt->bindParam(':OrdenID', $OrdenID[$i]);
+								$stmt->execute();
+								echo "woohoo ".$i."<br>";
+
+								$log->bindParam(':OrdenTrabajo', $WorkOrder[$i]);
+								$log->bindParam(':Partida', $i);
+								$log->bindParam(':PrevProgress',$Progress[$i]);
+								$log->bindParam(':NewProgress', $NewProgress[$i]);
+								$log->bindParam(':PrevAvance', $PrevAvance[$i]);
+								$log->bindParam(':NewAvance', $PrevAvance[$i]);
+								$log->bindParam(':ValidUntil', $DateTime);
+								$log->execute();
+								echo "hooray ".$i."<br>";
+							}
 						}
+
 						else{
 							echo "<br>No Pending Products<br><br>";
 						}
 
+						
+
+						
+
 					}
-
-					$stmt = $conn->prepare("UPDATE testorders
-											SET CantPending = :cantpending , Factura = :factura, Partial = :partial, Progress = :progress
-											WHERE ID = :OrdenID");
-
-					$stmt->bindParam(':cantpending', $cantResult);
-					$stmt->bindParam(':factura', $factura);
-					$stmt->bindParam(':partial', $PartialState);
-					$stmt->bindParam(':progress', $Progress);
-					$stmt->bindParam(':OrdenID', $OrdenID);
-
 					
 
 
