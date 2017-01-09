@@ -94,7 +94,7 @@ while($row=$data->fetch(PDO::FETCH_ASSOC)) {
                         $table_string .= "disabled>";
                        }
                        else{
-                        $table_string .= "required>";
+                        $table_string .= " placeholder='# o R#'>";
                        }
                       
     $table_string .= "</div>
@@ -147,7 +147,7 @@ echo "
             <div class='col-md-4'><strong>Descripcion</strong></div>
             <div style='text-align: center;' class='col-md-2'><strong>Cantidad Pendiente</strong></div>
             <div class='col-md-2'><strong>Cantidad<br>Real</strong></div>
-            <div class='col-md-2'><strong>Factura</strong></div>
+            <div class='col-md-2'><strong>Factura</strong><br></div>
         </div>";
                 echo $table_string;   
             echo "

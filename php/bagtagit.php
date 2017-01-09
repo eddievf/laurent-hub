@@ -158,7 +158,7 @@ if(!empty($_SESSION['logged'])){
 							$cantResult[$i] = $CantidadPendiente[$i] - $RealCant[$i];
 
 							if($cantResult[$i] == $CantidadPendiente[$i]){
-								exit("Error");
+								echo "Error, Nothing sent to Database as Pendings remain the same. Thank You<br>";
 							}
 
 							if($cantResult[$i] < 0){
@@ -167,6 +167,7 @@ if(!empty($_SESSION['logged'])){
 
 							}
 							else{
+
 								if($cantResult[$i] == 0){
 									$NewProgress[$i] = "Facturacion - ".$Factura[$i].". (Final)";
 									$PartialState[$i] = 1;
@@ -184,6 +185,12 @@ if(!empty($_SESSION['logged'])){
 									$FactString[$i] .= ", ".$Factura[$i];
 								}
 								$stmt->bindParam(':cantpending', $cantResult[$i]);
+
+								if($cantResult[$i] == $CantidadPendiente[$i]){
+									$FactString[$i] = $LoggedFactura[$i];
+									$NewProgress[$i] = $Progress[$i];
+								}
+
 								$stmt->bindParam(':factura', $FactString[$i]);
 								$stmt->bindParam(':partial', $PartialState[$i]);
 								$stmt->bindParam(':progress', $NewProgress[$i]);

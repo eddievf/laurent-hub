@@ -1,3 +1,9 @@
+<?php
+session_start();
+if(!empty($_SESSION['logged'])){
+
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -112,8 +118,8 @@
 					}
 
 					$stmt = $conn->prepare("INSERT INTO testOrders (OrdenTrabajo, OrdenCompra, Cliente, FechaSolicitud, Partida, 
-							Pieza, Cantidad, Progress, Prioridad, Validate )
-							VALUES (:OrdenTrabajo, :OrdenCompra, :Cliente, :FechaSolicitud, :Partida, :Pieza, :Cantidad, :Progress, :Prioridad, :Validate) ");
+							Pieza, Cantidad, CantPending, Progress, Prioridad, Validate )
+							VALUES (:OrdenTrabajo, :OrdenCompra, :Cliente, :FechaSolicitud, :Partida, :Pieza, :Cantidad, :CantPending, :Progress, :Prioridad, :Validate) ");
 
 				?>
 				<div class="panel panel-default" id="success">
@@ -140,6 +146,7 @@
 					$stmt->bindParam(':Partida', $Partida);
 					$stmt->bindParam(':Pieza', $Pieza);
 					$stmt->bindParam(':Cantidad', $Cantidad);
+					$stmt->bindParam(':CantPending', $Cantidad);
 					$stmt->bindParam(':Progress', $Registry);
 					$stmt->bindParam(':Prioridad', $Prioridad);
 					$stmt->bindParam(':Validate', $Validate);
@@ -182,3 +189,9 @@
 
 </body>
 </html>
+<?php
+	}
+	else{
+	header("location: ../notfound.php");
+}
+?>
