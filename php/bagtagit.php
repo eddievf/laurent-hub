@@ -68,7 +68,7 @@ if(!empty($_SESSION['logged'])){
                 			<li><a href="#">Embarque</a></li>
               			</ul>
 					</li>
-					<li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span> Salir</a></li>
+					<li><a href="../logout.php"><span class="glyphicon glyphicon-log-out"></span> Salir</a></li>
 				</ul>
 			</div><!--collapse-->
 		</div><!--container fluid-->

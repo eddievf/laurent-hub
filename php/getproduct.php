@@ -92,7 +92,7 @@ echo "
             echo "<div class= 'alert alert-danger'><p class='text-center'><small><u>Aún no hay dibujo para este producto</u></small></p></div>";
         }
         else{
-            echo "<div class= 'alert alert-success'><p class = 'text-center'><small><a href = '/indevtest/fileHandler.php?file=".$ProdKey."'><span class='glyphicon glyphicon-download'></span> ".$Descripcion.".pdf</a></small></p></div>";
+            echo "<div class= 'alert alert-success'><p class = 'text-center'><small><a href = 'php/fileHandler.php?file=".$ProdKey."'><span class='glyphicon glyphicon-download'></span> ".$Descripcion.".pdf</a></small></p></div>";
         }
         echo "
         </div>

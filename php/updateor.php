@@ -1,3 +1,10 @@
+
+<?php
+	session_start();
+	if(!empty($_SESSION['logged']))
+{
+
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,18 +13,18 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>[PYMAQ] MAQUINADOS - Confirmación Formularios</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<link href="http://localhost/indevdep/css/welcome.css" rel="stylesheet">
+	<link href="../css/welcome.css" rel="stylesheet">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<script src="js/scrollspy.js"></script>
-	<script src="js/getinfo.js"></script>
+	<script src="../js/scrollspy.js"></script>
+	<script src="../js/getinfo.js"></script>
 	<!--bootstrap select-->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.min.js"></script>
 
 
 	<?php
-	header("refresh: 3; url= http://localhost/indevdep/forms_maq.php");
+	header("refresh: 3; url= ../forms_maq.php");
 	//database connection
     try{
       $servername = "localhost";
@@ -51,13 +58,13 @@
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="welcome_rev.php">Inicio</a></li>
-					<li><a href="forms_maq.php">Formularios</a></li>
-					<li><a href="filter_maq.php">Reportes</a></li>
+					<li><a href="../welcome_rev.php">Inicio</a></li>
+					<li><a href="../forms_maq.php">Formularios</a></li>
+					<li><a href="../filter_maq.php">Reportes</a></li>
 					<li class="dropdown">
               			<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Departamentos <span class="caret"></span></a>
               			<ul class="dropdown-menu">
-                			<li><a href="welcome_rev.php">Maquinados</a></li>
+                			<li><a href="../welcome_rev.php">Maquinados</a></li>
                 			<li><a href="#">Almacen</a></li>
                 			<li><a href="#">Troquelado</a></li>
                 			<li role="separator" class="divider"></li>
@@ -65,7 +72,7 @@
                 			<li><a href="#">Embarque</a></li>
               			</ul>
 					</li>
-					<li><a href="#">Help</a></li>
+					<li><a href="../logout.php"><span class="glyphicon glyphicon-log-out"></span> Salir</a></li>
 				</ul>
 			</div><!--collapse-->
 		</div><!--container fluid-->
@@ -195,3 +202,9 @@
 
 </body>
 </html>
+<?php
+	}
+	else{
+		header("location: ../notfound.php");
+	}
+?>
