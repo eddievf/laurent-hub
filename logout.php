@@ -2,7 +2,7 @@
 	session_start();
 	session_destroy();
 
-	header("refresh: 3; url= http://localhost/indevdep/index.html");
+	header("refresh: 3; url= index.html");
 
 	echo '
 <!DOCTYPE html>
@@ -38,7 +38,7 @@
 		<div class="container">
 			<h1><u>Sesión Terminada</u></h1>
 			<p>La sesión actual ha sido terminada.<br>Puede volver a ingresar con sus mismas credenciales desde el portal de acceso.<br>A continuación, será redirigido al sitio de inicio de sesión.</p><br>
-			<p><small>Dar click <u><a href="http://localhost/indevdep/index.html">aquí</a></u> si no se redirige automaticamente.</small></p>
+			<p><small>Dar click <u><a href="index.html">aquí</a></u> si no se redirige automaticamente.</small></p>
 		</div>
 	</div>
 

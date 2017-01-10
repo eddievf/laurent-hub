@@ -1,5 +1,5 @@
 <?php
-	header("refresh: 3; url= http://localhost/indevdep/index.html");
+	header("refresh: 3; url= index.html");
 ?>
 <!DOCTYPE html>
 <html>
@@ -32,9 +32,9 @@
 
 	<div class="jumbotron jumbotron-fluid">
 		<div class="container">
-			<h1><u>404</u></h1>
+			<h1><u>404</u>?</h1>
 			<p>¿Te has perdido?<br>¿Desapareció el sitio que buscabas?<br>A continuación, será redirigido al que querias llegar.</p><br>
-			<p><small>Dar click <u><a href="http://localhost/indevdep/index.html">aquí</a></u> si no se redirige automaticamente.</small></p>
+			<p><small>Dar click <u><a href="index.html">aquí</a></u> si no se redirige automaticamente.</small></p>
 		</div>
 	</div>
 
@@ -42,5 +42,4 @@
 		<p class="text-muted"><small>2017 Prensas y Maquinados SA de CV.<br>Contact webmaster at info@eddievf.com</small></p>
 	</div>
 </body>
-</html>';
-}
+</html>

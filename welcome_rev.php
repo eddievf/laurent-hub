@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-if(!empty($_SESSION['logged'])){
-
+if(!empty($_SESSION['logged']))
+{
 
 ?>
 <!DOCTYPE html>
@@ -154,13 +154,13 @@ if(!empty($_SESSION['logged'])){
     						<?php				
 
 								try{
-									$stmt = $conn->prepare("SELECT OrdenTrabajo, OrdenCompra, testorders.Cliente, Partida, ProdKey, Descripcion, Cantidad,
+									$stmt = $conn->prepare("SELECT OrdenTrabajo, OrdenCompra, testorders.Cliente, Partida, Prioridad, ProdKey, Descripcion, Cantidad,
 									FechaSolicitud, Avance, Progress
 									FROM testOrders, testPiezas
 									WHERE (testpiezas.id)=(testorders.pieza)
 									AND Progress <> 'Entregado'
 									AND Progress <> 'Facturado'
-									ORDER BY FechaSolicitud, OrdenTrabajo, Partida");
+									ORDER BY Prioridad DESC, FechaSolicitud, OrdenTrabajo, Partida");
 									$stmt->execute();
 		
 									while($row=$stmt->fetch(PDO::FETCH_ASSOC)){
@@ -170,7 +170,12 @@ if(!empty($_SESSION['logged'])){
           								<td>$row[OrdenCompra]</td>
           								<td>$row[Cliente] </td>
           								<td>$row[Partida]</td>
-          								<td><u><a href = '/indevtest/fileHandler.php?file=$row[ProdKey]'>$row[Descripcion]</a></u></td>
+          								<td>";
+          								if($row['Prioridad'] == 1){
+          									echo "<span class='label label-danger'>Urgente</span> ";
+          								}
+
+          								echo "<u><a href = '/indevtest/fileHandler.php?file=$row[ProdKey]'>$row[Descripcion]</a></u></td>
           								<td>$row[Cantidad]</td>
           								<td>$row[FechaSolicitud]</td>
           								<td>$row[Progress]</td>
