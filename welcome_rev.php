@@ -3,6 +3,9 @@ session_start();
 
 if(!empty($_SESSION['logged']))
 {
+	if($_SESSION['clearsec'] != 5){
+
+
 
 ?>
 <!DOCTYPE html>
@@ -154,10 +157,11 @@ if(!empty($_SESSION['logged']))
     						<?php				
 
 								try{
-									$stmt = $conn->prepare("SELECT OrdenTrabajo, OrdenCompra, testorders.Cliente, Partida, Prioridad, ProdKey, Descripcion, Cantidad,
+									$stmt = $conn->prepare("SELECT OrdenTrabajo, OrdenCompra, testorders.Cliente, Partida, Validate, Prioridad, ProdKey, Descripcion, Cantidad,
 									FechaSolicitud, Avance, Progress
 									FROM testOrders, testPiezas
 									WHERE (testpiezas.id)=(testorders.pieza)
+									AND Partial <> 1
 									AND Progress <> 'Entregado'
 									AND Progress <> 'Facturado'
 									ORDER BY Prioridad DESC, FechaSolicitud, OrdenTrabajo, Partida");
@@ -166,17 +170,37 @@ if(!empty($_SESSION['logged']))
 									while($row=$stmt->fetch(PDO::FETCH_ASSOC)){
 
           								echo "<tr>
-          								<td>$row[OrdenTrabajo]</td>
+          								<td>$row[OrdenTrabajo] ";
+
+          								if($row['Prioridad'] == 1){
+          									echo "<span class='label label-danger'>Urgente</span> ";
+          								}
+          								else{
+          									echo '';
+          								}
+
+          								echo "</td>
           								<td>$row[OrdenCompra]</td>
           								<td>$row[Cliente] </td>
           								<td>$row[Partida]</td>
           								<td>";
-          								if($row['Prioridad'] == 1){
-          									echo "<span class='label label-danger'>Urgente</span> ";
+          								
+
+          								if($row['Validate'] != 1){
+          									if($row['Prioridad']){
+          										echo "<span class='label label-warning'><span class='glyphicon glyphicon-alert'></span> DISEÑO</span> <u><a href = 'php/fileHandler.php?file=$row[ProdKey]'>$row[Descripcion]</a></u></td>";
+          									}
+          									else{
+          										echo "$row[Descripcion]</td>";
+          									}
+          									
+          									
+          								}
+          								else{
+          									echo "<u><a href = 'php/fileHandler.php?file=$row[ProdKey]'>$row[Descripcion]</a></u></td>";
           								}
 
-          								echo "<u><a href = '/indevtest/fileHandler.php?file=$row[ProdKey]'>$row[Descripcion]</a></u></td>
-          								<td>$row[Cantidad]</td>
+          								echo "<td>$row[Cantidad]</td>
           								<td>$row[FechaSolicitud]</td>
           								<td>$row[Progress]</td>
           								<td>$row[Avance]%</td>
@@ -262,6 +286,10 @@ if(!empty($_SESSION['logged']))
 </body>
 </html>
 <?php
+	}
+	else{
+		header("location: forms_maq.php");
+	}
 }
 else{
 	header("location: notfound.php");
