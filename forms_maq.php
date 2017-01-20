@@ -4,7 +4,6 @@ session_start();
 if(!empty($_SESSION['logged'])){
 
 
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -56,7 +55,7 @@ if(!empty($_SESSION['logged'])){
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">Forms Maquinados</a>
+				<a class="navbar-brand" href="#">Forms Maquinados - <?php echo $_SESSION['user'] ?></a>
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
@@ -86,16 +85,31 @@ if(!empty($_SESSION['logged'])){
 			<div class="col-sm-3 col-md-2 sidebar affix" id="side-nav">
 				<ul class="nav nav-sidebar">
 					<li><a href="#morework">Ordenes Nuevas</a></li>
+					<?php
+						if($_SESSION['clearsec'] != 5){
+					?>
 					<li><a href="#updatework">Actualización de Ordenes</a></li>
 					<?php
-						if($_SESSION['clearsec'] == 1){
+						}
+						switch ($_SESSION['clearsec']) {
+							case 5:
+							case 4:
+								break;
+							case 1:
+							case 2:
+							case 3:
 					?>
 					<li><a href="#lookproduct">Información de Piezas</a></li>
 					<li><a href="#validorder">Revisión de Ordenes</a></li>
 					<?php
+						break;
 						}
+						if($_SESSION['clearsec'] == 5 or $_SESSION['clearsec'] == 1){
 					?>
 					<li><a href="#closeorder">Cerrar Orden</a></li>
+					<?php
+						}
+					?>
 				</ul>
 			</div>
 			<!--end sidebar-->
@@ -106,7 +120,6 @@ if(!empty($_SESSION['logged'])){
 				<!--Focus Images-->
 				<div class="container-fluid">
 					<div class="row placeholders">
-						
 							
 							<div class="jumbotron jumbotron-fluid">
 								<div class="container">
@@ -206,6 +219,10 @@ if(!empty($_SESSION['logged'])){
 				<!--Div with ID-->							
 				<!--END OF NEW ORDER-->
 
+				<?php
+						if($_SESSION['clearsec'] != 5){
+					?>
+
 				<!--START OF UPDATE-->
 				<div class="container-fluid" id="updatework">
 					<div class="jumbotron jumbotron-fluid">
@@ -214,7 +231,7 @@ if(!empty($_SESSION['logged'])){
 							<p class="lead text-muted"><i>Actualizar Información de las Ordenes en Proceso</i></p><br>
 						</div>
 						<div class="container">
-							<select class="custom-select selectpicker offset-sm-2 col-sm-8" title="Seleccione la Orden / Partida en Progreso" name="orders" data-live-search="true" onchange="showOrder(this.value)">
+							<select class="custom-select selectpicker offset-sm-2 col-sm-8" title="Seleccione Orden / Partida en Progreso" name="orders" data-live-search="true" onchange="showOrder(this.value)">
 							  <?php
 
 							      $selectorder = ("SELECT testorders.ID, OrdenTrabajo, Partida, Descripcion, Progress
@@ -247,7 +264,15 @@ if(!empty($_SESSION['logged'])){
 				</div><!--END OF UPDATE-->
 
 				<?php
-					if($_SESSION['clearsec'] == 1){
+					}
+
+					switch ($_SESSION['clearsec']) {
+							case 5:
+							case 4:
+								break;
+							case 1:
+							case 2:
+							case 3:
 				?>
 
 				<!--START OF UPDATE PIECES-->
@@ -312,7 +337,9 @@ if(!empty($_SESSION['logged'])){
 					</div>
 				</div><!-- END OF ORDER VALIDATION-->
 				<?php
+					break;
 					}
+					if($_SESSION['clearsec'] == 5 || $_SESSION['clearsec'] == 1){
 				?>
 				<!--START OF CLOSE ORDER (conundrum is it not?)-->
 				<div class="container-fluid" id="closeorder">
@@ -346,9 +373,10 @@ if(!empty($_SESSION['logged'])){
 						<br><br>
 					</div>
 				</div><!-- END OF CLOSE ORDER (again, conundrum)-->
-				
-				
-					
+				<?php
+						}
+					?>
+
 
 			</div><!--Main Content until here-->	
 

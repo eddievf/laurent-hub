@@ -2,6 +2,15 @@
 session_start();
 
 if(!empty($_SESSION['logged'])){
+	switch ($_SESSION['clearsec']) {
+		case 5:
+		case 4:
+			header("location: forms_maq.php");
+			break;
+		
+		case 1:
+		case 2:
+		case 3:
 
 ?>
 <!DOCTYPE html>
@@ -490,15 +499,8 @@ if(!empty($_SESSION['logged'])){
 
 					</form>
 				</div>
-						
-				
-
-				
-				
 
 			</div><!--Main Content until here-->	
-
-
 
 		</div>
 	</div>
@@ -506,6 +508,8 @@ if(!empty($_SESSION['logged'])){
 </body>
 </html>
 <?php
+			break;
+	}
 }
 else{
 	header("location: notfound.php");
