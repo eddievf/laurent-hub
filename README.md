@@ -6,7 +6,8 @@ This test version includes full functionality for:
 <ul>
 <li>Dashboard</li>
 <li>Forms</li>
-<li>Filters</li>
-<li>Secure LogIn/LogOut</li>
-<li>File Upload, Secure ProductKey</li>
+<li>Filters [Filepath]</li>
+<li>Secure LogIn/LogOut [Denied / Filepath]</li>
+<li>File Upload, Secure ProductKey [Denied / Filepath]</li>
+<li>JSGrid for handling of Orders (new and Updated) [Grid]</li>
 </ul>
